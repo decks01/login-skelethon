@@ -1,0 +1,193 @@
+.p-datatable .p-datatable-thead > tr > th {
+    text-align: left;
+    padding: 1rem 1rem;
+    border: 1px solid #dee2e6;
+    border-width: 0 0 1px 0;
+    font-weight: 700;
+    color: #343a40;
+    background: #f8f9fa;
+    transition: box-shadow 0.2s;
+    background-color: #10958082;
+}
+.p-datatable .p-sortable-column:not(.p-highlight):not(.p-sortable-disabled):hover {
+    background: #10958061;
+    color: #343a40;
+}
+.responsivas-busqueda {
+    margin-bottom: 50px;
+}
+.p-datatable .p-sortable-column.p-highlight {
+    color: #000000;
+}
+.p-datatable .p-sortable-column.p-highlight .p-sortable-column-icon {
+    color: #ffffff;
+}
+.p-datatable .p-sortable-column.p-highlight:not(.p-sortable-disabled):hover {
+    background: #EEF2FF;
+    // color: #ffffff;
+}
+.p-datatable .p-sortable-column.p-highlight:not(.p-sortable-disabled):hover {
+    background: #10958033;
+    color: #020000;
+    border-color: #020000;
+}
+.p-datatable .p-sortable-column.p-highlight .p-sortable-column-icon:hover {
+    color: #e5e5e5;
+}
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    background: #e2f2e2;
+    border-color: #82e8c6;
+    color: #030029;
+}
+.p-link:focus {
+    outline: 0 none;
+    outline-offset: 0;
+    box-shadow: 0 0 0 0.2rem #eaeaea;
+}
+.pi-sort-amount-up-alt:before {
+    color: #1d1d1c;
+}
+.pi-sort-amount-down:before {
+    content: "\e9a0";
+    color: #1d1d1c;
+
+}
+th.p-sortable-column.p-highlight{
+    color: #020000;
+}
+th.p-sortable-column.p-highlight:hover{
+    color: #020000;
+}
+th.p-sortable-column.p-highlight:focus{
+    color: #020000;
+}
+.p-datatable .p-sortable-column.p-highlight:not(.p-sortable-active):hover {
+    background: rgba(16, 149, 128, 0.2);
+    color: #020000;
+    border-color: #020000;
+}
+.p-datatable .p-sortable-column:focus {
+    box-shadow: inset 0 0 0 0.15rem #19875439;
+    outline: 0 none;
+}
+.loading {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: 700px;
+    place-content: center;
+    place-items: center;
+    align-items: center;
+}
+
+  .loader {
+    width: 8px;
+    height: 40px;
+    border-radius: 4px;
+    display: block;
+    margin: 20px auto;
+    position: relative;
+    background: currentColor;
+    color: #1658d3;
+    box-sizing: border-box;
+    animation: animloader 0.3s 0.3s linear infinite alternate;
+  }
+  
+  .loader::after, .loader::before {
+    content: '';
+    width: 8px;
+    height: 40px;
+    border-radius: 4px;
+    background: currentColor;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 20px;
+    box-sizing: border-box;
+    animation: animloader 0.3s  0.45s  linear infinite alternate;
+  }
+  .loader::before {
+    left: -20px;
+    animation-delay: 0s;
+  }
+  
+  @keyframes animloader {
+    0%   { height: 48px} 
+    100% { height: 4px}
+  }
+
+  .p-datatable .p-sortable-column.p-highlight {
+    background: rgb(203 219 203 / 94%);
+    color: #000000;
+}
+
+.add-responsiva{
+    display: flex;
+    justify-content: space-between;
+    padding: 25px 4px;
+}
+button.p-button {
+    margin-right: 5px;
+}
+.btn-responsivas{
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    p{
+        margin: 0px;
+    }
+    svg {
+        margin: 5px;
+    }
+}
+.sinunder{
+    text-decoration: none;
+}
+
+.table-responsivas{
+    .flex.justify-content-between {
+        display: flex;
+        width: 100%; 
+    }
+}
+
+.p-inputtext:enabled:hover {
+    border-color: #87c099;
+}
+.p-inputtext:enabled:focus {
+    outline: 0 none;
+    outline-offset: 0;
+    box-shadow: 0 0 0 0.2rem #175aa84a;
+    border-color: #92db9e78;
+}
+.p-inputtext:enabled:focus {
+    outline: 0 none;
+    outline-offset: 0;
+    box-shadow: 0 0 0 0.2rem rgb(23 90 168 / 29%);
+    border-color: #ffffff;
+}
+.p-button.p-button-outlined {
+    background-color: transparent;
+    color: #646464;
+    border: 1px solid;
+}
+.p-button.p-button-outlined:enabled:hover, .p-button.p-button-outlined:not(button):not(a):not(.p-disabled):hover {
+    background: rgba(99, 102, 241, 0.04);
+    color: #6ab981;
+    border: 1px solid;
+
+}
+.p-button:focus {
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #d0d0d0db, 0 1px 2px 0 black;
+}
+.sin-underline{
+    text-decoration: none;
+}
+.btn-color {
+    background-color: #24c45eab;
+
+    :hover {
+        background-color:#24c45f80;
+        color: rgb(163, 159, 159);
+    }
+}
