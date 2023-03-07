@@ -8,7 +8,8 @@ const Users = () => {
        <NavBar titule='Usuarios' />
       <div id="" className="">
         <h1>USERS</h1>
-        <TableAsociacion />
+        {/* <TableAsociacion /> */}
+        Estos son los usuarios
       </div>
     </div>
     );
