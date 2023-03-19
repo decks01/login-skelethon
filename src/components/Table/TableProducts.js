@@ -595,20 +595,20 @@ const handleClosecreate = (id) => {
                 <Modal.Title>Crear Producto</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-              <div className="form-group">
+              <div className="form-group mb-3">
                   <label> 
                     ID Categoria 
                   <input className="form-control" onChange={(e) => setidCat(e.target.value)}/>
                   </label>
                 </div>  
               <div className="row">
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     Nombre 
                   <input className="form-control" onChange={(e) => setNombre(e.target.value)}/>
                   </label>
                 </div>
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     Tipo
                     <input className="form-control" onChange={(e) => setTipo(e.target.value)}/>
@@ -620,13 +620,13 @@ const handleClosecreate = (id) => {
                     <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" onChange={(e) => setDescripcion(e.target.value)}></textarea>
               </div>
               <div className="row">
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     Stock
                     <input className="form-control" onChange={(e) => setStock(e.target.value)}/>
                   </label>
                 </div>
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     Precio
                     <input className="form-control" onChange={(e) => setPrecio(e.target.value)}/>
@@ -656,20 +656,20 @@ const handleClosecreate = (id) => {
                 <Modal.Title>Editar Producto</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-              <div className="form-group">
+              <div className="form-group mb-3">
                   <label> 
                     ID Categoria
                     <input className="form-control" value={idCat} onChange={(e) => setidCat(e.target.value)}/>
                   </label>
               </div>
               <div className="row">
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     Nombre 
                   <input className="form-control" value={nombre} onChange={(e) => setNombre(e.target.value)}/>
                   </label>
                 </div>
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     Tipo
                     <input className="form-control" value={tipo} onChange={(e) => setTipo(e.target.value)}/>
@@ -681,13 +681,13 @@ const handleClosecreate = (id) => {
                     <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" value={descripcion} onChange={(e) => setDescripcion(e.target.value)}></textarea>
               </div>
               <div className="row">
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     Stock
                     <input className="form-control" value={stock} onChange={(e) => setStock(e.target.value)}/>
                   </label>
                 </div>
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     Precio
                     <input className="form-control" value={precio} onChange={(e) => setPrecio(e.target.value)}/>

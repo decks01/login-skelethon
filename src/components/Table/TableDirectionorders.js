@@ -587,47 +587,81 @@ const handleClosecreate = (id) => {
                 <Modal.Title>Crear Dirección</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                 
-              <div className="row">
-                <div className="col">
-                  <label> 
+                
+                <div className="form-group mb-3">
+                  <label forhtml="inputState">Estado</label>
+                  <select id="inputState" class="form-control" onChange={(e) => setEstado(e.target.value)}>
+                    <option selected>------------------------Selecciona tu Estado----------------------</option>
+                    <option >Aguascalientes</option>
+                    <option >Baja California</option>
+                    <option >Baja California Sur</option>
+                    <option >Campeche</option>
+                    <option >Coahuila</option>
+                    <option >Colima</option>
+                    <option >Chiapas</option>
+                    <option >Chihuahua</option>
+                    <option >Durango</option>
+                    <option >Ciudad de Mexico</option>
+                    <option >Guanajuato</option>
+                    <option >Guerrero</option>
+                    <option >Hidalgo</option>
+                    <option >Jalisco</option>
+                    <option >Michoacan</option>
+                    <option >Morelos</option>
+                    <option >Nayarit</option>
+                    <option >Nuevo Leon</option>
+                    <option >Oaxaca</option>
+                    <option >Puebla</option>
+                    <option >Queretaro</option>
+                    <option >Quintana Roo</option>
+                    <option >San Luis Potosi</option>
+                    <option >Sinaloa</option>
+                    <option >Sonora</option>
+                    <option >Tabasco</option>
+                    <option >Tamaulipas</option>
+                    <option >Tlaxcala</option>
+                    <option >Veracruz</option>
+                    <option >Yucatan</option>
+                    <option >Zacatecas</option>
+                  </select>
+                  {/* <label> 
                     Estado 
                   <input className="form-control" onChange={(e) => setEstado(e.target.value)}/>
-                  </label>
+                  </label> */}
                 </div>
-                <div className="col">
+                <div className="row">
+                <div className="col mb-3">
                   <label> 
                     Ciudad
                     <input className="form-control" onChange={(e) => setCiudad(e.target.value)}/>
                   </label>
                 </div>
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     Colonia
                     <input className="form-control" onChange={(e) => setColonia(e.target.value)}/>
                   </label>
                 </div>
-                <div className="col">
-                  <label> 
-                    Dirección
-                    <input className="form-control" onChange={(e) => setDireccion(e.target.value)}/>
-                  </label>
-                </div>
-                <div className="col">
+              </div>
+              <div className="mb-3">
+                    <label forhtml="exampleFormControlTextarea1" className="form-label">Direccion</label>
+                    <textarea className="form-control" id="exampleFormControlTextarea1" rows="1" onChange={(e) => setDireccion(e.target.value)}></textarea>
+              </div>
+              <div className="row">
+                <div className="col mb-3">
                   <label> 
                     Correo
                     <input className="form-control" onChange={(e) => setCorreo(e.target.value)}/>
                   </label>
                 </div>
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     Telefono
                     <input className="form-control" onChange={(e) => setTelefono(e.target.value)}/>
                   </label>
                 </div>
               </div>
-             
-              </Modal.Body>
+            </Modal.Body>
 
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleClosecreate}>
@@ -646,45 +680,79 @@ const handleClosecreate = (id) => {
                 <Modal.Title>Editar Direccion</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-              <div className="row">
-                <div className="col">
-                  <label> 
-                    Estado
-                  <input className="form-control" value={estado} onChange={(e) => setEstado(e.target.value)}/>
-                  </label>
+              <div className="form-group mb-3">
+                  <label forhtml="inputState">Estado</label>
+                  <select id="inputState" class="form-control" value={estado} onChange={(e) => setEstado(e.target.value)}>
+                    <option selected>------------------------Selecciona tu Estado----------------------</option>
+                    <option >Aguascalientes</option>
+                    <option >Baja California</option>
+                    <option >Baja California Sur</option>
+                    <option >Campeche</option>
+                    <option >Coahuila</option>
+                    <option >Colima</option>
+                    <option >Chiapas</option>
+                    <option >Chihuahua</option>
+                    <option >Durango</option>
+                    <option >Ciudad de Mexico</option>
+                    <option >Guanajuato</option>
+                    <option >Guerrero</option>
+                    <option >Hidalgo</option>
+                    <option >Jalisco</option>
+                    <option >Michoacan</option>
+                    <option >Morelos</option>
+                    <option >Nayarit</option>
+                    <option >Nuevo Leon</option>
+                    <option >Oaxaca</option>
+                    <option >Puebla</option>
+                    <option >Queretaro</option>
+                    <option >Quintana Roo</option>
+                    <option >San Luis Potosi</option>
+                    <option >Sinaloa</option>
+                    <option >Sonora</option>
+                    <option >Tabasco</option>
+                    <option >Tamaulipas</option>
+                    <option >Tlaxcala</option>
+                    <option >Veracruz</option>
+                    <option >Yucatan</option>
+                    <option >Zacatecas</option>
+                  </select>
+                  {/* <label> 
+                    Estado 
+                  <input className="form-control" onChange={(e) => setEstado(e.target.value)}/>
+                  </label> */}
                 </div>
-                <div className="col">
+                <div className="row">
+                <div className="col mb-3">
                   <label> 
                     Ciudad
                     <input className="form-control" value={ciudad} onChange={(e) => setCiudad(e.target.value)}/>
                   </label>
                 </div>
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     Colonia
                     <input className="form-control" value={colonia} onChange={(e) => setColonia(e.target.value)}/>
                   </label>
                 </div>
-                <div className="col">
-                  <label> 
-                    Dirección
-                    <input className="form-control" value={direccion} onChange={(e) => setDireccion(e.target.value)}/>
-                  </label>
-                </div>
-                <div className="col">
+              </div>
+              <div className="mb-3">
+                    <label forhtml="exampleFormControlTextarea1" className="form-label">Direccion</label>
+                    <textarea className="form-control" id="exampleFormControlTextarea1" rows="1" value={direccion} onChange={(e) => setDireccion(e.target.value)}></textarea>
+              </div>
+              <div className="row">
+                <div className="col mb-3">
                   <label> 
                     Correo
                     <input className="form-control" value={correo} onChange={(e) => setCorreo(e.target.value)}/>
                   </label>
                 </div>
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     Telefono
                     <input className="form-control" value={telefono} onChange={(e) => setTelefono(e.target.value)}/>
                   </label>
                 </div>
               </div>
-              
               </Modal.Body>
   
 

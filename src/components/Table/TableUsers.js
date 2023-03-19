@@ -582,20 +582,20 @@ const handleClosecreate = (id) => {
                 <Modal.Title>Crear Usuario</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-              <div className="form-group">
+              <div className="form-group mb-3">
                   <label> 
                     ID 
                   <input className="form-control" onChange={(e) => setID(e.target.value)}/>
                   </label>
                 </div>  
               <div className="row">
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     Nombre 
                   <input className="form-control" onChange={(e) => setNombre(e.target.value)}/>
                   </label>
                 </div>
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     Apellido
                     <input className="form-control" onChange={(e) => setApellido(e.target.value)}/>
@@ -603,20 +603,20 @@ const handleClosecreate = (id) => {
                 </div>
               </div>
               <div className="row">
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     Correo
                     <input className="form-control" onChange={(e) => setCorreo(e.target.value)}/>
                   </label>
                 </div>
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     Contraseña
                     <input className="form-control" onChange={(e) => setContrasena(e.target.value)}/>
                   </label>
                 </div>
               </div>
-              <div className="form-group">
+              <div className="form-group mb-3">
                   <label> 
                     Rol
                     <input className="form-control" onChange={(e) => setrolUsuario(e.target.value)}/>
@@ -642,13 +642,13 @@ const handleClosecreate = (id) => {
               </Modal.Header>
               <Modal.Body>
               <div className="row">
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     Nombre 
                   <input disabled className="form-control" value={nombre} onChange={(e) => setNombre(e.target.value)}/>
                   </label>
                 </div>
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     Apellido
                     <input disabled className="form-control" value={apellido} onChange={(e) => setApellido(e.target.value)}/>
@@ -656,13 +656,13 @@ const handleClosecreate = (id) => {
                 </div>
               </div>
               <div className="row">
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     Correo
                     <input disabled className="form-control" value={correo} onChange={(e) => setCorreo(e.target.value)}/>
                   </label>
                 </div>
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     Rol
                     <input className="form-control" value={rolUsuario} onChange={(e) => setrolUsuario(e.target.value)}/>

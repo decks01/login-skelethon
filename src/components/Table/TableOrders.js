@@ -578,20 +578,20 @@ const handleClosecreate = (id) => {
                 <Modal.Title>Crear Pedido</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-              <div className="form-group">
+              <div className="form-group mb-3">
                   <label> 
                     Pedido_Usuario 
                   <input className="form-control" onChange={(e) => setpedidoUsuario(e.target.value)}/>
                   </label>
                 </div>  
               <div className="row">
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     ID_Direccion 
                   <input className="form-control" onChange={(e) => setidDireccion(e.target.value)}/>
                   </label>
                 </div>
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     ID_Detalle
                     <input className="form-control" onChange={(e) => setidDetalle(e.target.value)}/>
@@ -618,13 +618,13 @@ const handleClosecreate = (id) => {
               </Modal.Header>
               <Modal.Body>
               <div className="row">
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
-                    Pedido_Usuario
+                    ID_Usuario
                   <input className="form-control" value={pedidoUsuario} onChange={(e) => setpedidoUsuario(e.target.value)}/>
                   </label>
                 </div>
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     ID_Direccion
                     <input className="form-control" value={idDireccion} onChange={(e) => setidDireccion(e.target.value)}/>
@@ -632,13 +632,13 @@ const handleClosecreate = (id) => {
                 </div>
               </div>
               <div className="row">
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     ID_Detalle
                     <input disabled className="form-control" value={idDetalle} onChange={(e) => setidDetalle(e.target.value)}/>
                   </label>
                 </div>
-                <div className="col">
+                <div className="col mb-3">
                   {/* <label> 
                     Fecha
                     <input className="form-control" value={fecha} onChange={(e) => setFecha(e.target.value)}/>
