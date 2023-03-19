@@ -1,6 +1,6 @@
 import React from "react";
 import NavBar from "../components/globals/NavBar";
-import TableAsociacion from "../components/Table/TableAsociacion";
+import TableAsociacion from "../components/Table/TableUsers";
 import "./Home.scss";
 
 const Home = () => {

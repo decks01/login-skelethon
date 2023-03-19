@@ -1,17 +1,17 @@
 import React from 'react';
 import NavBar from '../../components/globals/NavBar';
-import TableUsers from '../../components/Table/TableUsers';
+import TableOrders from '../../components/Table/TableOrders';
 
-const Users = () => {
+const Orders = () => {
     return (
         <div className="container-info">
-        <NavBar titule='Usuarios'  />
+        <NavBar titule='Categorias'  />
        <div id="" className="">
-         <h1>USUARIOS</h1>
-         <TableUsers />
+         <h1>PEDIDOS</h1>
+         <TableOrders />
        </div>
      </div>
     );
 };
 
-export default Users;
+export default Orders;

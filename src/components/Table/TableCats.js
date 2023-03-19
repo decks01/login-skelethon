@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
+import Modal from "react-bootstrap/Modal";
+import Swal from 'sweetalert2';
 
 // Prime react
 import "primeicons/primeicons.css";
@@ -27,7 +29,7 @@ import constants from "../../utils/constants";
 function Columas() {
   return (
     <>
-      <Column field="usuario" header="usuario" sortable></Column>
+      <Column field="categoria" header="categoria" sortable></Column>
       <Column
         field="correo_alternativo"
         header="correo_alternativo"
@@ -37,7 +39,7 @@ function Columas() {
   );
 }
 
-const TableAsociacion = () => {
+const TableCats = () => {
 
 
   var moment = require("moment");
@@ -47,34 +49,208 @@ const TableAsociacion = () => {
   const [rows1, setRows1] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [data, setdata] = useState([]);
+  const [showcreate, setShowcreate] = useState(false);
+  const [show, setShow] = useState(false);
+  const [data, setData] = useState([]);
+  const [Datamodal, setDataModal] = useState([]);
+
+  const [idCats, setidCats] = useState([]);
+  const [talla, setTalla] = useState([]);
+  const [color, setColor] = useState([]);
 
   const [globalFilterValue1, setGlobalFilterValue1] = useState("");
   const [filters1, setFilters1] = useState(null);
 
+  const cleardata = () => {
+    setidCats("")
+    setTalla("")
+    setColor("")
+  };
+  
+  const getCats = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(constants.api + "cats", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer" + token,
+        },
+      });
+      const result = await response.json();
+      setData(result);
+      console.log(result);
+    } catch (error) {
+      console.log("Estan vacios los campos o esta mal la consulta");
+    }
+  };
 
   // DATA PARA EL FETCH
   useEffect(() => {
-    const fetchServicio = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await fetch(constants.api + "asociaciones", {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: "Bearer" + token,
-          },
-        });
-        const result = await response.json();
-        setdata(result);
-        console.log(result);
-      } catch (error) {
-        console.log("Estan vacios los campos o esta mal la consulta");
-      }
-    };
-    fetchServicio();
+    getCats();
   }, []);
+
+  const createCat = async () => {
+    // setShow(true);
+    try {
+      const response = await fetch(constants.api + "cats", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer" ,
+        },
+      body: JSON.stringify({
+          talla: talla,
+          color: color
+    }),
+      });
+
+      const result = await response.json();
+      console.log(result);
+
+      if(result){
+        console.log("La Categoría fue creada");
+        setShowcreate(false);
+        getCats();
+      }else{
+        console.log("No se pudo crear la Categoría");
+      }
+
+  
+} catch (error) {
+  alert("error en el servidor, intentelo de nuevo", error);
+}
+};
+
+const getCatById = async (idCats) => {
+  setShow(true);
+  try {
+    const response = await fetch(constants.api + "cats/" + idCats, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    const result = await response.json();
+    console.log(' result De getCats',result);
+    console.log(result);
+    setDataModal(result);
+    setidCats(result.idCats)
+    setTalla(result.talla)
+    setColor(result.color)
+  } catch (error) {
+    console.log(error);
+    alert("error en el servidor, intentelo de nuevo", error);
+  }
+};
+
+const updateCat = async (id) => {
+  try {
+    const idParse = parseInt(id);
+    const response = await fetch(constants.api + "cats/" + idParse, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer" ,
+      },
+      body: JSON.stringify({
+        color: color,
+        talla: talla,
+    }),
+    });
+
+    const result = await response.json();
+    console.log(result);
+
+    if(result){
+      console.log("Categoria actualizada correctamente");
+      setShow(false);
+      getCats();
+    }else{
+      console.log("Actualizacion de categoría fallada");
+    }
+
+
+} catch (error) {
+alert("error en el servidor, intentelo de nuevo", error);
+}
+};
+
+const deleteCat = async (id) => {
+  try {
+    const response = await fetch(constants.api + "cats/delete/" + id, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      
+    });
+
+    const result = await response.json();
+    console.log(result);
+
+    if(result){
+      Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Categoría eliminada",
+          showConfirmButton: false,
+          timer: 3000,
+        });
+      getCats();
+    }else{
+      console.log("No se pudo eliminar la categoría");
+    }
+
+    
+  } catch (error) {
+    alert("error en el servidor, intentelo de nuevo", error);
+  }
+};
+
+const ConfirmAlert = async (id) => {
+
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Este cambio será permanente!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, Eliminar!",
+    cancelButtonText: "Cancelar",
+    iconColor: "#d33",
+  }).then((result) => {
+  
+      if (result.isConfirmed) {
+        deleteCat(id);
+        Swal.fire("Eliminado!", "El registro de teléfono fue eliminado.", "success");
+        
+      }
+
+  });
+};
+
+const handleClose = (id) => {
+  setShow(false);
+  cleardata();
+};
+
+const handleShowcreate = (id) => {
+  setShowcreate(true);
+  console.log("entre al modal create");
+
+};
+
+const handleClosecreate = (id) => {
+  setShowcreate(false);
+  cleardata();
+};
 
   const onCustomPage1 = (event) => {
     setFirst1(event.first);
@@ -171,25 +347,15 @@ const TableAsociacion = () => {
   // TEMPLATES PARA ACCCIONES DE ELIMINAR Y EDITAR
   const actionBodyTemplate = (rowData) => {
     return (
-      <div key={rowData.ID}>
-        <Link to={`/responsiva//editar/`} className="sinunder">
+      <div key={rowData.id}>
           <Button
             icon="pi pi-pencil"
-            className="p-button-rounded p-button-success mr-2"
+            className="p-button-rounded p-button-success mr-2" onClick={(e) => getCatById(rowData?.idCats)}
           />
-        </Link>
-        <Link className="sinunder">
           <Button
             icon="pi pi-trash"
-            className="p-button-rounded p-button-danger"
+            className="p-button-rounded p-button-danger" onClick={(e) => ConfirmAlert(rowData?.idCats)}
           />
-        </Link>
-        <Link to={`/pdf/`}>
-          <Button
-            icon="pi pi-file-pdf"
-            className="p-button-rounded p-button-info"
-          />
-        </Link>
       </div>
     );
   };
@@ -304,7 +470,7 @@ const TableAsociacion = () => {
   };
 
   // FILTROS DE BUSQUEDA, POR QUE QUIERES FILTRAR
-  const globalFilters = ["colonia", "num_reporte", "fecha_inicio"];
+  const globalFilters = ["idCats", "talla", "color"];
 
   // ONCHANGE DE BUSQUEDA SEARCH
   const onGlobalFilterChange1 = (e) => {
@@ -319,9 +485,9 @@ const TableAsociacion = () => {
 
   // DATOS PARA COLUMNS, NOMBRE-TABLA --- NOMBRE QUE SE VE 
   const rows = [
-    { field: "secretario", header: "secretario" },
-    { field: "colonia", header: "colonia" },
-    { field: "presidente", header: "presidente" },
+    { field: "idCats", header: "ID" },
+    { field: "talla", header: "Talla" },
+    { field: "color", header: "Color" }
   ];
 
   return (
@@ -334,12 +500,10 @@ const TableAsociacion = () => {
         ) : (
           <div className="">
             <div className="add-responsiva">
-              <h5>Table de </h5>
-              <Link className="sin-underline" to={`/responsiva/agregar`}>
-                <button className="btn btn-success btn-responsivas">
+              <h5>Tabla de Categorias </h5>
+                <button className="btn btn-success btn-responsivas" onClick={handleShowcreate}>
                   <GrAdd /> <p> Agregar Nueva </p>
                 </button>
-              </Link>
             </div>
             <DataTable
               value={data}
@@ -359,7 +523,7 @@ const TableAsociacion = () => {
               globalFilterFields={globalFilters}
               currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords}"
             >
-              <Column
+              {/* <Column
                 field="fecha"
                 body={dateBodyTemplate}
                 // filterElement={dateFilterTemplate}
@@ -369,7 +533,7 @@ const TableAsociacion = () => {
                 style={{ minWidth: "8rem" }}
                 sortable
                 // filter
-              ></Column>
+              ></Column> */}
               {rows.map((item, key) => {
                 return (
               
@@ -391,9 +555,80 @@ const TableAsociacion = () => {
             </DataTable>
           </div>
         )}
+
+         {/* MODAL CREATE */}
+
+         <Modal show={showcreate} onHide={handleClosecreate}>
+              <Modal.Header closeButton>
+                <Modal.Title>Crear Categoria</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                 
+              <div className="row">
+                <div className="col">
+                  <label> 
+                    Color 
+                  <input className="form-control" onChange={(e) => setColor(e.target.value)}/>
+                  </label>
+                </div>
+                <div className="col">
+                  <label> 
+                    Talla
+                    <input className="form-control" onChange={(e) => setTalla(e.target.value)}/>
+                  </label>
+                </div>
+              </div>
+             
+              </Modal.Body>
+
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClosecreate}>
+                  Close
+                </Button>
+                <Button variant="primary" onClick={(e) => createCat(idCats)}>
+                  Create
+                </Button>
+              </Modal.Footer>
+            </Modal>
+
+            {/* MODAL EDIT */}
+
+            <Modal show={show} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Editar Categoria</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+              <div className="row">
+                <div className="col">
+                  <label> 
+                    Color
+                  <input className="form-control" value={color} onChange={(e) => setColor(e.target.value)}/>
+                  </label>
+                </div>
+                <div className="col">
+                  <label> 
+                    Talla
+                    <input className="form-control" value={talla} onChange={(e) => setTalla(e.target.value)}/>
+                  </label>
+                </div>
+              </div>
+              
+              </Modal.Body>
+  
+
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                  Close
+                </Button>
+                <Button variant="primary" onClick={(e) => updateCat(idCats)}>
+                  Save Changes
+                </Button>
+              </Modal.Footer>
+            </Modal>
+
       </div>
     </>
   );
 };
 
-export default TableAsociacion;
+export default TableCats;

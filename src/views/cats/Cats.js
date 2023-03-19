@@ -1,17 +1,17 @@
 import React from 'react';
 import NavBar from '../../components/globals/NavBar';
-import TableAsociacion from '../../components/Table/TableAsociacion';
+import TableCats from '../../components/Table/TableCats';
 
-const Prueba = () => {
+const Cats = () => {
     return (
         <div className="container-info">
-        <NavBar titule='Prueba'  />
+        <NavBar titule='Categorias'  />
        <div id="" className="">
-         <h1>PRUEBA</h1>
-         <TableAsociacion />
+         <h1>CATEGORIAS</h1>
+         <TableCats />
        </div>
      </div>
     );
 };
 
-export default Prueba;
+export default Cats;
