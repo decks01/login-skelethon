@@ -57,7 +57,7 @@ const TableOrders = () => {
   const [id, setidPedidos] = useState([]);
   const [pedidoUsuario, setpedidoUsuario] = useState([]);
   const [idDireccion, setidDireccion] = useState([]);
-  const [idDetalle, setidDetalle] = useState([]);
+  // const [idDetalle, setidDetalle] = useState([]);
   const [fecha, setFecha] = useState([]);
 
   const [globalFilterValue1, setGlobalFilterValue1] = useState("");
@@ -67,7 +67,7 @@ const TableOrders = () => {
     setidPedidos("")
     setpedidoUsuario("")
     setidDireccion("")
-    setidDetalle("")
+    // setidDetalle("")
     setFecha("")
   };
   
@@ -100,7 +100,7 @@ const TableOrders = () => {
     try {
       const pedidoUsuarioParse = parseInt(pedidoUsuario);
       const idDireccionParse = parseInt(idDireccion);
-      const idDetalleParse = parseInt(idDetalle);
+      // const idDetalleParse = parseInt(idDetalle);
       const response = await fetch(constants.api + "orders", {
         method: "POST",
         headers: {
@@ -110,8 +110,8 @@ const TableOrders = () => {
         },
       body: JSON.stringify({
           pedidoUsuario: pedidoUsuarioParse,
-          idDireccion: idDireccionParse,
-          idDetalle: idDetalleParse
+          idDireccion: idDireccionParse
+          // idDetalle: idDetalleParse
     }),
       });
 
@@ -149,7 +149,7 @@ const getOrderById = async (id) => {
     setidPedidos(result.idPedidos)
     setpedidoUsuario(result.pedidoUsuario)
     setidDireccion(result.idDireccion)
-    setidDetalle(result.idDetalle)
+    // setidDetalle(result.idDetalle)
     setFecha(result.fecha)
   } catch (error) {
     alert("error en el servidor, intentelo de nuevo", error);
@@ -161,7 +161,7 @@ const updateOrder = async (id) => {
     const idParse = parseInt(id);
     const pedidoUsuarioParse = parseInt(pedidoUsuario);
     const idDireccionParse = parseInt(idDireccion);
-    const idDetalleParse = parseInt(idDetalle);
+    // const idDetalleParse = parseInt(idDetalle);
     const response = await fetch(constants.api + "orders/" + idParse, {
       method: "PUT",
       headers: {
@@ -171,8 +171,8 @@ const updateOrder = async (id) => {
       },
       body: JSON.stringify({
         pedidoUsuario: pedidoUsuarioParse,
-        idDireccion: idDireccionParse,
-        idDetalle: idDetalleParse
+        idDireccion: idDireccionParse
+        // idDetalle: idDetalleParse
     }),
     });
 
@@ -483,7 +483,7 @@ const handleClosecreate = (id) => {
   };
 
   // FILTROS DE BUSQUEDA, POR QUE QUIERES FILTRAR
-  const globalFilters = ["idPedidos", "pedidoUsuario", "idDireccion", "idDetalle", "fecha"];
+  const globalFilters = ["idPedidos", "pedidoUsuario", "idDireccion", "fecha"];
 
   // ONCHANGE DE BUSQUEDA SEARCH
   const onGlobalFilterChange1 = (e) => {
@@ -501,7 +501,7 @@ const handleClosecreate = (id) => {
     { field: "idPedidos", header: "ID" },
     { field: "pedidoUsuario", header: "ID_Usuario" },
     { field: "idDireccion", header: "ID_Direccion" },
-    { field: "idDetalle", header: "ID_Detalle" },
+    // { field: "idDetalle", header: "ID_Detalle" },
     { field: "fecha", header: "Fecha" }
   ];
 
@@ -591,12 +591,12 @@ const handleClosecreate = (id) => {
                   <input className="form-control" onChange={(e) => setidDireccion(e.target.value)}/>
                   </label>
                 </div>
-                <div className="col mb-3">
+                {/* <div className="col mb-3">
                   <label> 
                     ID_Detalle
                     <input className="form-control" onChange={(e) => setidDetalle(e.target.value)}/>
                   </label>
-                </div>
+                </div> */}
               </div>
               </Modal.Body>
 
@@ -631,7 +631,7 @@ const handleClosecreate = (id) => {
                   </label>
                 </div>
               </div>
-              <div className="row">
+              {/* <div className="row">
                 <div className="col mb-3">
                   <label> 
                     ID_Detalle
@@ -639,12 +639,12 @@ const handleClosecreate = (id) => {
                   </label>
                 </div>
                 <div className="col mb-3">
-                  {/* <label> 
+                  <label> 
                     Fecha
                     <input className="form-control" value={fecha} onChange={(e) => setFecha(e.target.value)}/>
-                  </label> */}
+                  </label>
                 </div>
-              </div>
+              </div> */}
               
               </Modal.Body>
   

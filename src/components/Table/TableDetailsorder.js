@@ -55,6 +55,7 @@ const TableDetailsorder = () => {
 
   const [idDetalles, setidDetalles] = useState([]);
   const [idProd, setidProd] = useState([]);
+  const [idPedido, setidPedido] = useState([]);
   const [cantidad, setCantidad] = useState([]);
   const [precio, setPrecio] = useState([]);
   const [subtotal, setSubtotal] = useState([]);
@@ -65,6 +66,7 @@ const TableDetailsorder = () => {
   const cleardata = () => {
     setidDetalles("")
     setidProd("")
+    setidPedido("")
     setCantidad("")
     setPrecio("")
     setSubtotal("")
@@ -98,6 +100,7 @@ const TableDetailsorder = () => {
     // setShow(true);
     try {
       const idProdParse = parseInt(idProd);
+      const idPedidoParse = parseInt(idPedido);
       const cantidadParse = parseInt(cantidad);
       const precioParse = parseFloat(precio);
       const subtotalParse = parseFloat(subtotal);
@@ -111,6 +114,7 @@ const TableDetailsorder = () => {
         },
       body: JSON.stringify({
           idProd: idProdParse,
+          idPedido: idPedidoParse,
           cantidad: cantidadParse,
           precio: precioParse,
           subtotal: subtotalParse
@@ -150,6 +154,7 @@ const getDetailById = async (idDetalles) => {
     setDataModal(result);
     setidDetalles(result.idDetalles)
     setidProd(result.idProd)
+    setidPedido(result.idPedido)
     setCantidad(result.cantidad)
     setPrecio(result.precio) 
     setSubtotal(result.subtotal) 
@@ -163,6 +168,7 @@ const getDetailById = async (idDetalles) => {
 const updateDetail = async (id) => {
   try {
       const idProdParse = parseInt(idProd);
+      const idPedidoParse = parseInt(idPedido);
       const cantidadParse = parseInt(cantidad);
       const precioParse = parseFloat(precio);
       const subtotalParse = parseFloat(subtotal);
@@ -177,6 +183,7 @@ const updateDetail = async (id) => {
       },
       body: JSON.stringify({
          idProd: idProdParse,
+         idPedido: idPedidoParse,
           cantidad: cantidadParse,
           precio: precioParse,
           subtotal: subtotalParse
@@ -491,7 +498,7 @@ const handleClosecreate = (id) => {
   };
 
   // FILTROS DE BUSQUEDA, POR QUE QUIERES FILTRAR
-  const globalFilters = ["idDetalles", "idProd", "cantidad", "precio", "subtotal"];
+  const globalFilters = ["idDetalles", "idProd", "idPedido","cantidad", "precio", "subtotal"];
 
   // ONCHANGE DE BUSQUEDA SEARCH
   const onGlobalFilterChange1 = (e) => {
@@ -508,6 +515,7 @@ const handleClosecreate = (id) => {
   const rows = [
     { field: "idDetalles", header: "ID" },
     { field: "idProd", header: "ID_Producto" },
+    { field: "idPedido", header: "ID_Pedido" },
     { field: "cantidad", header: "Cantidad" },
     { field: "precio", header: "Precio" },
     { field: "subtotal", header: "subTotal" }
@@ -596,12 +604,18 @@ const handleClosecreate = (id) => {
                 </div>
                 <div className="col mb-3">
                   <label> 
-                    Cantidad
-                    <input className="form-control" onChange={(e) => setCantidad(e.target.value)}/>
+                    idPedido
+                  <input className="form-control" onChange={(e) => setidPedido(e.target.value)}/>
                   </label>
                 </div>
               </div>
                 <div className="row">
+                <div className="col mb-3">
+                  <label> 
+                    Cantidad
+                    <input className="form-control" onChange={(e) => setCantidad(e.target.value)}/>
+                  </label>
+                </div>
                 <div className="col mb-3">
                   <label> 
                     Precio
@@ -644,12 +658,18 @@ const handleClosecreate = (id) => {
                 </div>
                 <div className="col mb-3">
                   <label> 
-                    Cantidad
-                    <input className="form-control" value={cantidad} onChange={(e) => setCantidad(e.target.value)}/>
+                    idPedido
+                  <input className="form-control" value={idPedido} onChange={(e) => setidPedido(e.target.value)}/>
                   </label>
                 </div>
               </div>
               <div className="row">
+                <div className="col mb-3">
+                  <label> 
+                    Cantidad
+                    <input className="form-control" value={cantidad} onChange={(e) => setCantidad(e.target.value)}/>
+                  </label>
+                </div>
                 <div className="col mb-3">
                   <label> 
                     Precio
