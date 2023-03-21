@@ -381,7 +381,7 @@ const handleClosecreate = (id) => {
   };
   // TEMPLATE PARA FECHA
   const dateBodyTemplate = (rowData) => {
-    return formatDate(rowData.fecha_inicio);
+    return formatDate(rowData.fecha);
   };
 
   //   INICIALIZAR FILTROS POR TODOS
@@ -504,7 +504,7 @@ const handleClosecreate = (id) => {
     { field: "pedidoUsuario", header: "ID_Usuario" },
     { field: "idDireccion", header: "ID_Direccion" },
     // { field: "idDetalle", header: "ID_Detalle" },
-    { field: "fecha", header: "Fecha" }
+    // { field: "fecha", header: "Fecha" }
   ];
 
   return (
@@ -540,17 +540,7 @@ const handleClosecreate = (id) => {
               globalFilterFields={globalFilters}
               currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords}"
             >
-              {/* <Column
-                field="fecha"
-                body={dateBodyTemplate}
-                // filterElement={dateFilterTemplate}
-                header="Fecha"
-                dataType="date"
-                exportable={false}
-                style={{ minWidth: "8rem" }}
-                sortable
-                // filter
-              ></Column> */}
+              
               {rows.map((item, key) => {
                 return (
               
@@ -562,6 +552,18 @@ const handleClosecreate = (id) => {
                
                 );
               })}
+
+              <Column
+                field="fecha"
+                body={dateBodyTemplate}
+                // filterElement={dateFilterTemplate}
+                header="Fecha"
+                dataType="date"
+                exportable={false}
+                style={{ minWidth: "8rem" }}
+                sortable
+                // filter
+              ></Column>
 
               <Column
                 body={actionBodyTemplate}
