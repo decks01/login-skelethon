@@ -648,7 +648,13 @@ const handleClosecreate = (id) => {
                     <input className="form-control" value={estado} onChange={(e) => setEstado(e.target.value)}/>
                   </label>
                 </div>
+              <div className="col mb-3">
+                <label>
+                  Fecha_Entrega
+                  <input className="form-control" type="date" value={fechaEntrega} onChange={(e) => setFechaEntrega(e.target.value)}/>
+                </label>
               </div>
+            </div>
               
               </Modal.Body>
   
