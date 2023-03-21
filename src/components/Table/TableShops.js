@@ -58,6 +58,7 @@ const TableShops = () => {
   const [pedidoID, setPedidoID] = useState([]);
   const [estado, setEstado] = useState([]);
   const [fecha, setFecha] = useState([]);
+  const [fechaEntrega, setFechaEntrega] = useState([]);
 
   const [globalFilterValue1, setGlobalFilterValue1] = useState("");
   const [filters1, setFilters1] = useState(null);
@@ -67,6 +68,7 @@ const TableShops = () => {
     setPedidoID("")
     setEstado("")
     setFecha("")
+    setFechaEntrega("")
   };
   
   const getShops = async () => {
@@ -97,6 +99,7 @@ const TableShops = () => {
     // setShow(true);
     try {
       const pedidoIDParse = parseInt(pedidoID);
+      const fechaEntregaIni = moment(fechaEntrega).format("YYYY-MM-DD[T]HH:mm:ss[.000Z]");
       const response = await fetch(constants.api + "shops", {
         method: "POST",
         headers: {
@@ -106,7 +109,8 @@ const TableShops = () => {
         },
       body: JSON.stringify({
           pedidoID: pedidoIDParse,
-          estado: estado
+          estado: estado,
+          fechaEntrega: fechaEntregaIni
     }),
       });
 
@@ -145,6 +149,7 @@ const getShopById = async (idCompra) => {
     setPedidoID(result.pedidoID)
     setEstado(result.estado)
     setFecha(result.fecha)
+    setFechaEntrega(result.fechaEntrega)
   } catch (error) {
     console.log(error);
     alert("error en el servidor, intentelo de nuevo", error);
@@ -155,6 +160,7 @@ const updateShop = async (id) => {
   try {
     const idParse = parseInt(id);
     const pedidoIDParse = parseInt(pedidoID);
+    const fechaEntregaIni = moment(fechaEntrega).format("YYYY-MM-DD[T]HH:mm:ss[.000Z]");
     const response = await fetch(constants.api + "shops/" + idParse, {
       method: "PUT",
       headers: {
@@ -164,7 +170,8 @@ const updateShop = async (id) => {
       },
       body: JSON.stringify({
         pedidoID: pedidoIDParse,
-        estado: estado
+        estado: estado,
+        fechaEntrega: fechaEntregaIni
     }),
     });
 
@@ -371,7 +378,11 @@ const handleClosecreate = (id) => {
   };
   // TEMPLATE PARA FECHA
   const dateBodyTemplate = (rowData) => {
-    return formatDate(rowData.fecha_inicio);
+    return formatDate(rowData.fecha);
+  };
+
+  const dateBodyTemp = (rowData) => {
+    return formatDate(rowData.fechaEntrega);
   };
 
   //   INICIALIZAR FILTROS POR TODOS
@@ -475,7 +486,7 @@ const handleClosecreate = (id) => {
   };
 
   // FILTROS DE BUSQUEDA, POR QUE QUIERES FILTRAR
-  const globalFilters = ["idCompra", "pedidoID", "estado", "fecha"];
+  const globalFilters = ["idCompra", "pedidoID", "estado", "fecha", "fechaEntrega"];
 
   // ONCHANGE DE BUSQUEDA SEARCH
   const onGlobalFilterChange1 = (e) => {
@@ -493,7 +504,8 @@ const handleClosecreate = (id) => {
     { field: "idCompra", header: "ID" },
     { field: "pedidoID", header: "pedido_ID" },
     { field: "estado", header: "Estado" },
-    { field: "fecha", header: "Fecha" }
+    // { field: "fecha", header: "Fecha" }
+    // { field: "fechaEntrega", header: "Fecha de Entrega" }
   ];
 
   return (
@@ -529,17 +541,6 @@ const handleClosecreate = (id) => {
               globalFilterFields={globalFilters}
               currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords}"
             >
-              {/* <Column
-                field="fecha"
-                body={dateBodyTemplate}
-                // filterElement={dateFilterTemplate}
-                header="Fecha"
-                dataType="date"
-                exportable={false}
-                style={{ minWidth: "8rem" }}
-                sortable
-                // filter
-              ></Column> */}
               {rows.map((item, key) => {
                 return (
               
@@ -551,6 +552,30 @@ const handleClosecreate = (id) => {
                
                 );
               })}
+
+              <Column
+                field="fecha"
+                body={dateBodyTemplate}
+                // filterElement={dateFilterTemplate}
+                header="Fecha"
+                dataType="date"
+                exportable={false}
+                style={{ minWidth: "8rem" }}
+                sortable
+                // filter
+              ></Column>
+
+              <Column
+                field="fechaEntrega"
+                body={dateBodyTemp}
+                // filterElement={dateFilterTemplate}
+                header="Fecha de Entrega"
+                dataType="date"
+                exportable={false}
+                style={{ minWidth: "8rem" }}
+                sortable
+                // filter
+              ></Column>
 
               <Column
                 body={actionBodyTemplate}
@@ -571,19 +596,25 @@ const handleClosecreate = (id) => {
               <Modal.Body>
                  
               <div className="row">
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     Pedido_ID 
                   <input className="form-control" onChange={(e) => setPedidoID(e.target.value)}/>
                   </label>
                 </div>
-                <div className="col">
+                <div className="col mb-3">
                   <label> 
                     Estado
                     <input className="form-control" onChange={(e) => setEstado(e.target.value)}/>
                   </label>
                 </div>
+              <div className="col mb-3">
+                <label>
+                  Fecha_Entrega
+                  <input className="form-control" type="date" onChange={(e) => setFechaEntrega(e.target.value)}/>
+                </label>
               </div>
+            </div>
              
               </Modal.Body>
 
