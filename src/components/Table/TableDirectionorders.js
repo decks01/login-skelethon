@@ -61,6 +61,7 @@ const TableDirectionorder = () => {
   const [direccion, setDireccion] = useState([]);
   const [correo, setCorreo] = useState([]);
   const [telefono, setTelefono] = useState([]);
+  const [usuarioID, setUsuarioID] = useState([]);
 
   const [globalFilterValue1, setGlobalFilterValue1] = useState("");
   const [filters1, setFilters1] = useState(null);
@@ -73,6 +74,7 @@ const TableDirectionorder = () => {
     setDireccion("")
     setCorreo("")
     setTelefono("")
+    setUsuarioID("")
   };
   
   const getDirections = async () => {
@@ -102,6 +104,7 @@ const TableDirectionorder = () => {
   const createDirection = async () => {
     // setShow(true);
     try {
+      const usuarioIDParse = parseInt(usuarioID);
       const response = await fetch(constants.api + "directionorders", {
         method: "POST",
         headers: {
@@ -115,7 +118,8 @@ const TableDirectionorder = () => {
           colonia: colonia,
           direccion: direccion,
           correo: correo,
-          telefono: telefono
+          telefono: telefono,
+          usuarioID: usuarioIDParse
     }),
       });
 
@@ -157,6 +161,7 @@ const getDirectionById = async (idDirecciones) => {
     setDireccion(result.direccion)
     setCorreo(result.correo)
     setTelefono(result.telefono)
+    setUsuarioID(result.usuarioID)
   } catch (error) {
     console.log(error);
     alert("error en el servidor, intentelo de nuevo", error);
@@ -166,6 +171,7 @@ const getDirectionById = async (idDirecciones) => {
 const updateDirection = async (id) => {
   try {
     const idParse = parseInt(id);
+    const usuarioIDParse = parseInt(usuarioID);
     const response = await fetch(constants.api + "directionorders/" + idParse, {
       method: "PUT",
       headers: {
@@ -180,6 +186,7 @@ const updateDirection = async (id) => {
           direccion: direccion,
           correo: correo,
           telefono: telefono,
+          usuarioID: usuarioIDParse
     }),
     });
 
@@ -490,7 +497,7 @@ const handleClosecreate = (id) => {
   };
 
   // FILTROS DE BUSQUEDA, POR QUE QUIERES FILTRAR
-  const globalFilters = ["idDirecciones", "estado", "ciudad", "colonia", "direccion", "correo", "telefono"];
+  const globalFilters = ["idDirecciones", "estado", "ciudad", "colonia", "direccion", "correo", "telefono", "usuarioID"];
 
   // ONCHANGE DE BUSQUEDA SEARCH
   const onGlobalFilterChange1 = (e) => {
@@ -511,7 +518,8 @@ const handleClosecreate = (id) => {
     { field: "colonia", header: "Colonia" },
     { field: "direccion", header: "Direccion" },
     { field: "correo", header: "Correo" },
-    { field: "telefono", header: "Telefono" }
+    { field: "telefono", header: "Telefono" },
+    { field: "usuarioID", header: "Usuario_ID" }
   ];
 
   return (
@@ -661,6 +669,12 @@ const handleClosecreate = (id) => {
                   </label>
                 </div>
               </div>
+              <div className="form-group mb-3">
+                  <label> 
+                    Usuario_ID
+                    <input className="form-control" onChange={(e) => setUsuarioID(e.target.value)}/>
+                  </label>
+                </div>
             </Modal.Body>
 
               <Modal.Footer>
@@ -753,6 +767,12 @@ const handleClosecreate = (id) => {
                   </label>
                 </div>
               </div>
+              <div className="form-group mb-3">
+                  <label> 
+                    Usuario_ID
+                    <input className="form-control" value={usuarioID} onChange={(e) => setUsuarioID(e.target.value)}/>
+                  </label>
+                </div>
               </Modal.Body>
   
 

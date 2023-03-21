@@ -39,7 +39,7 @@ function Columas() {
   );
 }
 
-const TableOrders = () => {
+const TableShops = () => {
 
 
   var moment = require("moment");
@@ -54,27 +54,25 @@ const TableOrders = () => {
   const [data, setData] = useState([]);
   const [Datamodal, setDataModal] = useState([]);
 
-  const [id, setidPedidos] = useState([]);
-  const [pedidoUsuario, setpedidoUsuario] = useState([]);
-  const [idDireccion, setidDireccion] = useState([]);
-  // const [idDetalle, setidDetalle] = useState([]);
+  const [idCompra, setidCompra] = useState([]);
+  const [pedidoID, setPedidoID] = useState([]);
+  const [estado, setEstado] = useState([]);
   const [fecha, setFecha] = useState([]);
 
   const [globalFilterValue1, setGlobalFilterValue1] = useState("");
   const [filters1, setFilters1] = useState(null);
 
   const cleardata = () => {
-    setidPedidos("")
-    setpedidoUsuario("")
-    setidDireccion("")
-    // setidDetalle("")
+    setidCompra("")
+    setPedidoID("")
+    setEstado("")
     setFecha("")
   };
   
-  const getOrders = async () => {
+  const getShops = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(constants.api + "orders", {
+      const response = await fetch(constants.api + "shops", {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -92,17 +90,14 @@ const TableOrders = () => {
 
   // DATA PARA EL FETCH
   useEffect(() => {
-    getOrders();
+    getShops();
   }, []);
 
-  const createOrder = async () => {
+  const createShop = async () => {
     // setShow(true);
     try {
-      const pedidoUsuarioParse = parseInt(pedidoUsuario);
-      const idDireccionParse = parseInt(idDireccion);
-      // const fechaMoment = moment(fecha).format('YYYY-MM-DD');
-      // const idDetalleParse = parseInt(idDetalle);
-      const response = await fetch(constants.api + "orders", {
+      const pedidoIDParse = parseInt(pedidoID);
+      const response = await fetch(constants.api + "shops", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -110,10 +105,8 @@ const TableOrders = () => {
           Authorization: "Bearer" ,
         },
       body: JSON.stringify({
-          pedidoUsuario: pedidoUsuarioParse,
-          idDireccion: idDireccionParse,
-          // idDetalle: idDetalleParse
-          // fecha: fechaMoment
+          pedidoID: pedidoIDParse,
+          estado: estado
     }),
       });
 
@@ -121,11 +114,11 @@ const TableOrders = () => {
       console.log(result);
 
       if(result){
-        console.log("Fue creado el pedido");
+        console.log("La Categoría fue creada");
         setShowcreate(false);
-        getOrders();
+        getShops();
       }else{
-        console.log("El pedido no se creo");
+        console.log("No se pudo crear la Categoría");
       }
 
   
@@ -134,10 +127,10 @@ const TableOrders = () => {
 }
 };
 
-const getOrderById = async (id) => {
+const getShopById = async (idCompra) => {
   setShow(true);
   try {
-    const response = await fetch(constants.api + "orders/" + id, {
+    const response = await fetch(constants.api + "shops/" + idCompra, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -145,26 +138,24 @@ const getOrderById = async (id) => {
       },
     });
     const result = await response.json();
-    console.log(' result De getOrders',result);
+    console.log(' result De getCats',result);
     console.log(result);
     setDataModal(result);
-    setidPedidos(result.idPedidos)
-    setpedidoUsuario(result.pedidoUsuario)
-    setidDireccion(result.idDireccion)
-    // setidDetalle(result.idDetalle)
+    setidCompra(result.idCompra)
+    setPedidoID(result.pedidoID)
+    setEstado(result.estado)
     setFecha(result.fecha)
   } catch (error) {
+    console.log(error);
     alert("error en el servidor, intentelo de nuevo", error);
   }
 };
 
-const updateOrder = async (id) => {
+const updateShop = async (id) => {
   try {
     const idParse = parseInt(id);
-    const pedidoUsuarioParse = parseInt(pedidoUsuario);
-    const idDireccionParse = parseInt(idDireccion);
-    // const idDetalleParse = parseInt(idDetalle);
-    const response = await fetch(constants.api + "orders/" + idParse, {
+    const pedidoIDParse = parseInt(pedidoID);
+    const response = await fetch(constants.api + "shops/" + idParse, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -172,9 +163,8 @@ const updateOrder = async (id) => {
         Authorization: "Bearer" ,
       },
       body: JSON.stringify({
-        pedidoUsuario: pedidoUsuarioParse,
-        idDireccion: idDireccionParse
-        // idDetalle: idDetalleParse
+        pedidoID: pedidoIDParse,
+        estado: estado
     }),
     });
 
@@ -182,11 +172,11 @@ const updateOrder = async (id) => {
     console.log(result);
 
     if(result){
-      console.log("Pedido actualizado correctamente");
+      console.log("Categoria actualizada correctamente");
       setShow(false);
-      getOrders();
+      getShops();
     }else{
-      console.log("El pedido no se actualizo");
+      console.log("Actualizacion de categoría fallada");
     }
 
 
@@ -195,9 +185,9 @@ alert("error en el servidor, intentelo de nuevo", error);
 }
 };
 
-const deleteOrder = async (id) => {
+const deleteShop = async (id) => {
   try {
-    const response = await fetch(constants.api + "orders/delete/" + id, {
+    const response = await fetch(constants.api + "shops/delete/" + id, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
@@ -213,13 +203,13 @@ const deleteOrder = async (id) => {
       Swal.fire({
           position: "center",
           icon: "success",
-          title: "Pedido eliminado",
+          title: "Compra eliminada",
           showConfirmButton: false,
           timer: 3000,
         });
-      getOrders();
+      getShops();
     }else{
-      console.log("El pedido no se borro");
+      console.log("No se pudo eliminar la compra");
     }
 
     
@@ -243,7 +233,7 @@ const ConfirmAlert = async (id) => {
   }).then((result) => {
   
       if (result.isConfirmed) {
-        deleteOrder(id);
+        deleteShop(id);
         Swal.fire("Eliminado!", "El registro de teléfono fue eliminado.", "success");
         
       }
@@ -365,11 +355,11 @@ const handleClosecreate = (id) => {
       <div key={rowData.id}>
           <Button
             icon="pi pi-pencil"
-            className="p-button-rounded p-button-success mr-2" onClick={(e) => getOrderById(rowData?.idPedidos)}
+            className="p-button-rounded p-button-success mr-2" onClick={(e) => getShopById(rowData?.idCompra)}
           />
           <Button
             icon="pi pi-trash"
-            className="p-button-rounded p-button-danger" onClick={(e) => ConfirmAlert(rowData?.idPedidos)}
+            className="p-button-rounded p-button-danger" onClick={(e) => ConfirmAlert(rowData?.idCompra)}
           />
       </div>
     );
@@ -485,7 +475,7 @@ const handleClosecreate = (id) => {
   };
 
   // FILTROS DE BUSQUEDA, POR QUE QUIERES FILTRAR
-  const globalFilters = ["idPedidos", "pedidoUsuario", "idDireccion", "fecha"];
+  const globalFilters = ["idCompra", "pedidoID", "estado", "fecha"];
 
   // ONCHANGE DE BUSQUEDA SEARCH
   const onGlobalFilterChange1 = (e) => {
@@ -500,10 +490,9 @@ const handleClosecreate = (id) => {
 
   // DATOS PARA COLUMNS, NOMBRE-TABLA --- NOMBRE QUE SE VE 
   const rows = [
-    { field: "idPedidos", header: "ID" },
-    { field: "pedidoUsuario", header: "ID_Usuario" },
-    { field: "idDireccion", header: "ID_Direccion" },
-    // { field: "idDetalle", header: "ID_Detalle" },
+    { field: "idCompra", header: "ID" },
+    { field: "pedidoID", header: "pedido_ID" },
+    { field: "estado", header: "Estado" },
     { field: "fecha", header: "Fecha" }
   ];
 
@@ -517,9 +506,9 @@ const handleClosecreate = (id) => {
         ) : (
           <div className="">
             <div className="add-responsiva">
-              <h5>Tabla de Pedidos </h5>
+              <h5>Tabla de Compras </h5>
                 <button className="btn btn-success btn-responsivas" onClick={handleShowcreate}>
-                  <GrAdd /> <p> Agregar Nuevo </p>
+                  <GrAdd /> <p> Agregar Nueva </p>
                 </button>
             </div>
             <DataTable
@@ -577,36 +566,32 @@ const handleClosecreate = (id) => {
 
          <Modal show={showcreate} onHide={handleClosecreate}>
               <Modal.Header closeButton>
-                <Modal.Title>Crear Pedido</Modal.Title>
+                <Modal.Title>Crear Compra</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-              <div className="form-group mb-3">
-                  <label> 
-                    Pedido_Usuario 
-                  <input className="form-control" onChange={(e) => setpedidoUsuario(e.target.value)}/>
-                  </label>
-                </div>  
+                 
               <div className="row">
-                <div className="col mb-3">
+                <div className="col">
                   <label> 
-                    ID_Direccion 
-                  <input className="form-control" onChange={(e) => setidDireccion(e.target.value)}/>
+                    Pedido_ID 
+                  <input className="form-control" onChange={(e) => setPedidoID(e.target.value)}/>
                   </label>
                 </div>
-                {/* <div className="col mb-3">
+                <div className="col">
                   <label> 
-                    ID_Detalle
-                    <input className="form-control" onChange={(e) => setidDetalle(e.target.value)}/>
+                    Estado
+                    <input className="form-control" onChange={(e) => setEstado(e.target.value)}/>
                   </label>
-                </div> */}
+                </div>
               </div>
+             
               </Modal.Body>
 
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleClosecreate}>
                   Close
                 </Button>
-                <Button variant="primary" onClick={(e) => createOrder(id)}>
+                <Button variant="primary" onClick={(e) => createShop(idCompra)}>
                   Create
                 </Button>
               </Modal.Footer>
@@ -616,37 +601,23 @@ const handleClosecreate = (id) => {
 
             <Modal show={show} onHide={handleClose}>
               <Modal.Header closeButton>
-                <Modal.Title>Editar Pedido</Modal.Title>
+                <Modal.Title>Editar Compra</Modal.Title>
               </Modal.Header>
               <Modal.Body>
               <div className="row">
-                <div className="col mb-3">
+                <div className="col">
                   <label> 
-                    ID_Usuario
-                  <input className="form-control" value={pedidoUsuario} onChange={(e) => setpedidoUsuario(e.target.value)}/>
+                    Pedido_ID
+                  <input className="form-control" value={pedidoID} onChange={(e) => setPedidoID(e.target.value)}/>
                   </label>
                 </div>
-                <div className="col mb-3">
+                <div className="col">
                   <label> 
-                    ID_Direccion
-                    <input className="form-control" value={idDireccion} onChange={(e) => setidDireccion(e.target.value)}/>
+                    Estado
+                    <input className="form-control" value={estado} onChange={(e) => setEstado(e.target.value)}/>
                   </label>
                 </div>
               </div>
-              {/* <div className="row">
-                <div className="col mb-3">
-                  <label> 
-                    ID_Detalle
-                    <input disabled className="form-control" value={idDetalle} onChange={(e) => setidDetalle(e.target.value)}/>
-                  </label>
-                </div>
-                <div className="col mb-3">
-                  <label> 
-                    Fecha
-                    <input className="form-control" value={fecha} onChange={(e) => setFecha(e.target.value)}/>
-                  </label>
-                </div>
-              </div> */}
               
               </Modal.Body>
   
@@ -655,7 +626,7 @@ const handleClosecreate = (id) => {
                 <Button variant="secondary" onClick={handleClose}>
                   Close
                 </Button>
-                <Button variant="primary" onClick={(e) => updateOrder(id)}>
+                <Button variant="primary" onClick={(e) => updateShop(idCompra)}>
                   Save Changes
                 </Button>
               </Modal.Footer>
@@ -666,4 +637,4 @@ const handleClosecreate = (id) => {
   );
 };
 
-export default TableOrders;
+export default TableShops;

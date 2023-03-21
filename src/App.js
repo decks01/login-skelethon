@@ -17,8 +17,9 @@ import { useEffect } from "react";
 import Products from "./views/products/Products.js";
 import Cats from "./views/cats/Cats.js";
 import DirectionsOrders from "./views/directionsorders/DirectionsOrders.js";
-import DetailsOrders from "./views/detailsorders/DetailsOrders.js";
 import Orders from "./views/orders/Orders.js";
+import DetailsOrders from "./views/detailsorders/DetailsOrders.js";
+import Shops from "./views/shops/Shops.js";
 
 
 function App() {
@@ -46,8 +47,9 @@ function App() {
           <Route exact path="/categorias" element={<Cats />} />
           <Route exact path="/productos" element={<Products />} />
           <Route exact path="/direcciones" element={<DirectionsOrders />} />
-          <Route exact path="/detalles" element={<DetailsOrders />} />
           <Route exact path="/pedidos" element={<Orders />} />
+          <Route exact path="/detalles" element={<DetailsOrders />} />
+          <Route exact path="/compras" element={<Shops />} />
         </Routes>
       </BrowserRouter>
     </>

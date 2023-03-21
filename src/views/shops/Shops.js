@@ -1,17 +1,17 @@
 import React from 'react';
 import NavBar from '../../components/globals/NavBar';
-import TableOrders from '../../components/Table/TableOrders';
+import TableShops from '../../components/Table/TableShops';
 
-const Orders = () => {
+const Shops = () => {
     return (
         <div className="container-info">
         <NavBar titule='Pedidos'  />
        <div id="" className="">
-         <h1>PEDIDOS</h1>
-         <TableOrders />
+         <h1>COMPRAS</h1>
+         <TableShops />
        </div>
      </div>
     );
 };
 
-export default Orders;
+export default Shops;
