@@ -7,10 +7,10 @@
     color: #343a40;
     background: #f8f9fa;
     transition: box-shadow 0.2s;
-    background-color: #10958082;
+    background-color: #dd721b82;
 }
 .p-datatable .p-sortable-column:not(.p-highlight):not(.p-sortable-disabled):hover {
-    background: #10958061;
+    background: #bd700c61;
     color: #343a40;
 }
 .responsivas-busqueda {
@@ -35,8 +35,8 @@
     color: #e5e5e5;
 }
 .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
-    background: #e2f2e2;
-    border-color: #82e8c6;
+    background: #f2eae2;
+    border-color: #e8b382;
     color: #030029;
 }
 .p-link:focus {
@@ -88,7 +88,7 @@ th.p-sortable-column.p-highlight:focus{
     margin: 20px auto;
     position: relative;
     background: currentColor;
-    color: #1658d3;
+    color: #d37b16;
     box-sizing: border-box;
     animation: animloader 0.3s 0.3s linear infinite alternate;
   }
@@ -195,3 +195,7 @@ button.p-button {
 // .form-control {
 //     height: 100%;
 // }
+
+.imgprod {
+    width: 150px;
+}

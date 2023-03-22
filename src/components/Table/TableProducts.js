@@ -397,6 +397,10 @@ const handleClosecreate = (id) => {
     return formatDate(rowData.fecha_inicio);
   };
 
+  const dateBodyTempimg = (rowData) => {
+    return <img className="imgprod" src={constants.api+rowData.imagen}></img>
+  };
+
   //   INICIALIZAR FILTROS POR TODOS
   const initFilters1 = () => {
     setFilters1({
@@ -519,7 +523,7 @@ const handleClosecreate = (id) => {
     { field: "tipo", header: "Tipo" },
     { field: "stock", header: "Stock" },
     { field: "precio", header: "Precio" },
-    { field: "imagen", header: "Imagen" }
+    // { field: "imagen", header: "Imagen" }
   ];
 
   return (
@@ -566,6 +570,7 @@ const handleClosecreate = (id) => {
                 sortable
                 // filter
               ></Column> */}
+
               {rows.map((item, key) => {
                 return (
               
@@ -577,6 +582,17 @@ const handleClosecreate = (id) => {
                
                 );
               })}
+
+              <Column
+                field="imagen"
+                body={dateBodyTempimg}
+                // filterElement={dateFilterTemplate}
+                header="Imagen"
+                exportable={false}
+                style={{ minWidth: "8rem" }}
+                sortable
+                // filter
+              ></Column>
 
               <Column
                 body={actionBodyTemplate}
@@ -694,10 +710,10 @@ const handleClosecreate = (id) => {
                   </label>
                 </div>
               </div>
-              <div className="mb-3">
+              {/* <div className="mb-3">
                     <label forhtml="formFileMultiple" className="form-label">Multiple files input example</label>
                     <input className="form-control" type="file" id="formFileMultiple" multiple value={imagen} onChange={(e) => setImagen(e.target.value)}/>
-              </div>
+              </div> */}
               
               </Modal.Body>
   

@@ -5,15 +5,15 @@ import Swal from 'sweetalert2';
 import { type } from '@testing-library/user-event/dist/type';
 
 const FormButton = props => (
-    <div id="button" className="row">
+    <div id="button" className="row log">
         <button>{props.title}</button>
     </div>
 );
 
 const FormInput = props => (
-    <div className="row">
+    <div className="row log">
         <label>{props.description}</label>
-        <input onChange={props.onChange} type={props.type} placeholder={props.placeholder} />
+        <input className='lgpr' onChange={props.onChange} type={props.type} placeholder={props.placeholder} />
     </div>
 );
 
@@ -111,15 +111,15 @@ const Index = () => {
         <div className='login-container'>
             <div id="loginform">
                 <FormHeader title="Login" />
-                <div className="row">
-                    <label>Usuario</label>
+                <div className="row log">
+                    <label className="lbuser">Usuario</label>
                     <input required className='form-control' onChange={handleInputUser} type='number' placeholder={'Escribe tu usuario'} />
                 </div>
-                <div className="row">
-                    <label>Contraseña</label>
-                    <input required className='form-control' onChange={handleInputPass} type="password" placeholder={'escribe tu contraseña'} />
+                <div className="row log">
+                    <label className="lbpass">Contraseña</label>
+                    <input required className='form-control' onChange={handleInputPass} type="password" placeholder={'Escribe tu contraseña'} />
                 </div>
-                <div id="button" className="row">
+                <div id="button" className="row log">
                     <button onClick={submit}>Log in</button>
                 </div>
             </div>

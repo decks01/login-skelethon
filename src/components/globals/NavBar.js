@@ -3,6 +3,7 @@ import { AiTwotoneHome } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { MdMenuOpen } from "react-icons/md";
 import { IoMdMenu } from "react-icons/io";
+// import "./Index.scss";
 
 const NavBar = (props) => {
   const [menu, setMenu] = useState();
@@ -76,7 +77,7 @@ const NavBar = (props) => {
           <div className="">
             <Link to="/">
               {" "}
-              <AiTwotoneHome />
+              <AiTwotoneHome className="btnhome" />
             </Link>
           </div>
           &nbsp; &nbsp; &nbsp;

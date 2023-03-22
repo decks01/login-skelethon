@@ -46,7 +46,9 @@
 
 }
 
-
+.btnlog button{
+    border: none;
+}
 
 .bt-mobile{
     display: none;
@@ -163,10 +165,15 @@
 
     .title-logo{
         height: 100px;
-        background-color: antiquewhite;
+        background-color: rgba(255, 255, 255, 0.082);
         display: grid;
         place-content: center;
     }
+
+    .title-logo img{
+        width: 125px;
+    }
+
     .hr-title {
         width: 80%;
         align-items: center;
@@ -210,11 +217,11 @@
             background-color: rgba(255, 255, 255, 0.2);
         }
         &:active{
-            background: linear-gradient(195deg, rgb(73, 163, 241), rgb(26, 115, 232));
+            background: linear-gradient(195deg, rgb(102 9 25), rgb(232 121 26));
 
         }
         &:focus{
-            background: linear-gradient(195deg, rgb(73, 163, 241), rgb(26, 115, 232));
+            background: linear-gradient(195deg, rgb(102 9 25), rgb(232 121 26));
         }
         
     }
@@ -228,14 +235,18 @@
         height: 100%;
     }
     .bt-logout{
-        background: linear-gradient(195deg, rgb(73, 163, 241), rgb(26, 115, 232));
+        background: linear-gradient(195deg, rgb(116 6 14), rgb(209 51 15));
 
     }
     .color-btn{
-        background: linear-gradient(195deg, rgb(73, 163, 241), rgb(26, 115, 232));
+        background: linear-gradient(195deg, rgb(102 9 25), rgb(232 121 26));
 
     }
     .quitarcolor{
         background-color: rgba(255, 255, 255, 0.2) !important;
     }
+}
+
+.btnhome{
+    color:#dd5507
 }

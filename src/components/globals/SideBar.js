@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Index.scss";
+import logo from "../../imgs/logo.png"
 
 const RouteLink = (props) => {
 
@@ -46,7 +47,7 @@ const SideBar = () => {
       <div id="side-bar-option" className="container-side-bar">
         <div>
           <div className="title-logo">
-            <p>Titule and Logo</p>
+            <img src={logo} alt="no image"></img>
           </div>
           <hr className="hr-title" />
           <RouteLink to="/" nombre="Inicio" />
@@ -58,7 +59,7 @@ const SideBar = () => {
           <RouteLink to="/detalles" nombre="Detalles" />
           <RouteLink to="/compras" nombre="Compras" />
         </div>
-        <div className="d-flex justify-content-center w-100">
+        <div className="btnlog d-flex justify-content-center w-100">
           <button className="btn btn-primary w-100 bt-logout" onClick={logout}>
             Cerrar sesión
           </button>
