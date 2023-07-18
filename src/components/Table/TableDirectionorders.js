@@ -40,7 +40,7 @@ function Columas() {
 }
 
 const TableDirectionorder = () => {
-
+  
 
   var moment = require("moment");
   const [loader, setloader] = useState(true);

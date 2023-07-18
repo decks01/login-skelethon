@@ -35,7 +35,6 @@ const Form = props => (
 
 const Index = () => {
 
-    localStorage.clear();
     const [correo, setCorro] = useState("");
     const [contrasena, setContrasena] = useState("");
 

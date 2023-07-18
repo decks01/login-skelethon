@@ -40,7 +40,7 @@ function Columas() {
 }
 
 const TableUsers = () => {
-
+  
 
   var moment = require("moment");
   const [loader, setloader] = useState(true);
@@ -74,6 +74,20 @@ const TableUsers = () => {
     setContrasena("")
     setrolUsuario("")
   };
+
+  const getUserLocalData = () => {
+    const userData = localStorage.getItem("userData");
+    if (userData) {
+      const parsedData = JSON.parse(userData);
+      // Set the state with the retrieved data
+      setDataModal(parsedData);
+      setidUsuario(parsedData.idUsuarios);
+      setNombre(parsedData.nombre);
+      setApellido(parsedData.apellido);
+      setCorreo(parsedData.correo);
+      setrolUsuario(parsedData.rolUsuario);
+    }
+  };
   
   const getUser = async () => {
     try {
@@ -94,9 +108,21 @@ const TableUsers = () => {
     }
   };
 
+  const getUserLocal = async () => {
+    try {
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+    
+      setData(users);
+      console.log(users);
+    } catch (error) {
+      console.log("Estan vacios los campos o esta mal la consulta");
+    }
+  };
+
   // DATA PARA EL FETCH
   useEffect(() => {
-    getUser();
+    // getUser();
+    getUserLocal();
   }, []);
 
   const createUser = async () => {
@@ -138,6 +164,39 @@ const TableUsers = () => {
 }
 };
 
+const createUserLocal = () => {
+  var users = JSON.parse(localStorage.getItem('users')) || []
+  // setShow(true);
+  try {
+    const IDParse = parseInt(ID);
+    var user = {
+      ID: IDParse,
+      nombre: nombre,
+      apellido: apellido,
+      correo: correo,
+      contrasena: contrasena,
+      imagen:"",
+      rolUsuario: rolUsuario
+    }
+    users.push(user)
+    localStorage.setItem('users', JSON.stringify(users))
+
+    console.log(users);
+
+    if(users){
+      console.log("Fue creado el usuario");
+      setShowcreate(false);
+      getUserLocal();
+    }else{
+      console.log("El usuario no se creo");
+    }
+
+
+} catch (error) {
+alert("error en el servidor, intentelo de nuevo", error);
+}
+};
+
   const getUserById = async (ID) => {
     setShow(true);
     console.log(ID);
@@ -158,6 +217,34 @@ const TableUsers = () => {
       setApellido(result.apellido)
       setCorreo(result.correo)
       setrolUsuario(result.rolUsuario)
+    } catch (error) {
+      alert("error en el servidor, intentelo de nuevo", error);
+    }
+  };
+
+  const getUserLocalById = (IDlocal) => {
+    setShow(true);
+    // console.log(ID);
+
+    try {
+      var users = JSON.parse(localStorage.getItem('users')) || []
+
+      // var result = users.find(function (user) {
+      //   return user.id === ID
+      // })
+
+      const result = users.filter(item => item.ID  === IDlocal);
+
+      console.log('result del filtro ', result);
+
+      console.log(' result De getUser',result);
+      console.log(result);
+      setDataModal(result);
+      setidUsuario(result[0].idUsuarios)
+      setNombre(result[0].nombre)
+      setApellido(result[0].apellido)
+      setCorreo(result[0].correo)
+      setrolUsuario(result[0].rolUsuario)
     } catch (error) {
       alert("error en el servidor, intentelo de nuevo", error);
     }
@@ -245,6 +332,55 @@ const ConfirmAlert = async (id) => {
   
       if (result.isConfirmed) {
         deleteUser(id);
+        Swal.fire("Eliminado!", "El registro de teléfono fue eliminado.", "success");
+        
+      }
+
+  });
+};
+
+const deleteUserLocal = (idLocal) => {
+  try {
+    var users = JSON.parse(localStorage.removeItem('users')) || []
+    const result = users.filter(item => item.id  === idLocal);
+    
+    console.log(result);
+
+    if(result){
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Usuario eliminado",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+      getUserLocal();
+    }else{
+      console.log("el usuario no se borro");
+    }
+
+    
+  } catch (error) {
+    alert("error en el servidor, intentelo de nuevo", error);
+  }
+};
+
+const ConfirmAlertLocal = async (id) => {
+
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Este cambio será permanente!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, Eliminar!",
+    cancelButtonText: "Cancelar",
+    iconColor: "#d33",
+  }).then((result) => {
+  
+      if (result.isConfirmed) {
+        deleteUserLocal(id);
         Swal.fire("Eliminado!", "El registro de teléfono fue eliminado.", "success");
         
       }
@@ -366,11 +502,11 @@ const handleClosecreate = (id) => {
       <div key={rowData.ID}>
           <Button
             icon="pi pi-pencil"
-            className="p-button-rounded p-button-success mr-2" onClick={(e) => getUserById(rowData?.ID)}
+            className="p-button-rounded p-button-success mr-2" onClick={(e) => getUserLocalById(rowData?.ID)}
           />
           <Button
             icon="pi pi-trash"
-            className="p-button-rounded p-button-danger" onClick={(e) => ConfirmAlert(rowData?.idUsuarios)}
+            className="p-button-rounded p-button-danger" onClick={(e) => ConfirmAlertLocal(rowData?.idUsuarios)}
           />
       </div>
     );
@@ -628,7 +764,7 @@ const handleClosecreate = (id) => {
                 <Button variant="secondary" onClick={handleClosecreate}>
                   Close
                 </Button>
-                <Button variant="primary" onClick={(e) => createUser(id)}>
+                <Button variant="primary" onClick={(e) => createUserLocal(id)}>
                   Create
                 </Button>
               </Modal.Footer>
