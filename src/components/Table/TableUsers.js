@@ -75,20 +75,6 @@ const TableUsers = () => {
     setrolUsuario("")
   };
 
-  const getUserLocalData = () => {
-    const userData = localStorage.getItem("userData");
-    if (userData) {
-      const parsedData = JSON.parse(userData);
-      // Set the state with the retrieved data
-      setDataModal(parsedData);
-      setidUsuario(parsedData.idUsuarios);
-      setNombre(parsedData.nombre);
-      setApellido(parsedData.apellido);
-      setCorreo(parsedData.correo);
-      setrolUsuario(parsedData.rolUsuario);
-    }
-  };
-  
   const getUser = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -108,7 +94,7 @@ const TableUsers = () => {
     }
   };
 
-  const getUserLocal = async () => {
+  const getUserLocal = () => {
     try {
       const users = JSON.parse(localStorage.getItem("users")) || [];
     
@@ -125,6 +111,17 @@ const TableUsers = () => {
     getUserLocal();
   }, []);
 
+
+  
+  const createBothUser = () => {
+    if(navigator.onLine) {
+      createUser()
+    } else {
+      createUserLocal()
+        
+    }
+  }
+ 
   const createUser = async () => {
     // setShow(true);
     try {
@@ -165,122 +162,157 @@ const TableUsers = () => {
 };
 
 const createUserLocal = () => {
-  var users = JSON.parse(localStorage.getItem('users')) || []
-  // setShow(true);
   try {
     const IDParse = parseInt(ID);
-    var user = {
-      ID: IDParse,
+    // Resto del código para obtener nombre, apellido, correo, etc.
+
+    // Crear un nuevo objeto con los datos del usuario, incluido el ID
+    const newUser = {
+      idUsuarios: IDParse,
       nombre: nombre,
       apellido: apellido,
       correo: correo,
       contrasena: contrasena,
-      imagen:"",
-      rolUsuario: rolUsuario
-    }
-    users.push(user)
-    localStorage.setItem('users', JSON.stringify(users))
+      imagen: "",
+      rolUsuario: rolUsuario,
+    };
 
-    console.log(users);
+    // Obtener la lista actual de usuarios del localStorage o inicializar una lista vacía
+    const users = JSON.parse(localStorage.getItem("users")) || [];
 
-    if(users){
-      console.log("Fue creado el usuario");
-      setShowcreate(false);
-      getUserLocal();
-    }else{
-      console.log("El usuario no se creo");
-    }
+    // Agregar el nuevo usuario a la lista
+    users.push(newUser);
 
+    // Guardar la lista actualizada en el localStorage
+    localStorage.setItem("users", JSON.stringify(users));
 
-} catch (error) {
-alert("error en el servidor, intentelo de nuevo", error);
-}
+    console.log("Fue creado el usuario");
+    setShowcreate(false);
+    getUserLocal(); // Llamamos a getUserLocal para actualizar el estado "data" con los nuevos datos
+
+  } catch (error) {
+    console.error("Error en el servidor, inténtelo de nuevo", error);
+    alert("Error en el servidor, inténtelo de nuevo", error);
+  }
 };
 
-  const getUserById = async (ID) => {
+const getUserById = async (ID) => {
+  setShow(true);
+  console.log(ID);
+  try {
+    const response = await fetch(constants.api + "users/" + ID, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    const result = await response.json();
+    console.log(' result De getUser',result);
+    console.log(result);
+    setDataModal(result);
+    setidUsuario(result.idUsuarios)
+    setNombre(result.nombre)
+    setApellido(result.apellido)
+    setCorreo(result.correo)
+    setrolUsuario(result.rolUsuario)
+  } catch (error) {
+    alert("error en el servidor, intentelo de nuevo", error);
+  }
+};
+
+  const getUserLocalById = (ID) => {
     setShow(true);
     console.log(ID);
+  
     try {
-      const response = await fetch(constants.api + "users/" + ID, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      });
-      const result = await response.json();
-      console.log(' result De getUser',result);
-      console.log(result);
-      setDataModal(result);
-      setidUsuario(result.idUsuarios)
-      setNombre(result.nombre)
-      setApellido(result.apellido)
-      setCorreo(result.correo)
-      setrolUsuario(result.rolUsuario)
-    } catch (error) {
-      alert("error en el servidor, intentelo de nuevo", error);
-    }
-  };
-
-  const getUserLocalById = (IDlocal) => {
-    setShow(true);
-    // console.log(ID);
-
-    try {
-      var users = JSON.parse(localStorage.getItem('users')) || []
-
-      // var result = users.find(function (user) {
-      //   return user.id === ID
-      // })
-
-      const result = users.filter(item => item.ID  === IDlocal);
-
-      console.log('result del filtro ', result);
-
-      console.log(' result De getUser',result);
-      console.log(result);
-      setDataModal(result);
-      setidUsuario(result[0].idUsuarios)
-      setNombre(result[0].nombre)
-      setApellido(result[0].apellido)
-      setCorreo(result[0].correo)
-      setrolUsuario(result[0].rolUsuario)
-    } catch (error) {
-      alert("error en el servidor, intentelo de nuevo", error);
-    }
-  };
-
-  const updateRoluser = async (id) => {
-    try {
-      const rolParse = parseInt(rolUsuario);
-      const idParse = parseInt(id);
-      const response = await fetch(constants.api + "users/Updaterol/" + idParse, {
-        method: "PUT",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer" ,
-        },
-        body: JSON.stringify({
-          rolUsuario: rolParse
-      }),
-      });
-
-      const result = await response.json();
-      console.log(result);
-
-      if(result){
-        console.log("Fue editado el usuario");
-        setShow(false);
-        getUser();
-      }else{
-        console.log("el usuario no se actualizo");
+      // Obtenemos la lista de usuarios almacenada en localStorage
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+  
+      // Buscamos el usuario con el ID proporcionado
+      const result = users.find((user) => user.idUsuarios === ID);
+  
+      if (!result) {
+        console.log("Usuario no encontrado");
+        return;
       }
+  
+      console.log("Result De getUser", result);
+  
+      // Actualizamos los estados con los datos del usuario encontrado
+      setDataModal(result);
+      setidUsuario(result.idUsuarios);
+      setNombre(result.nombre);
+      setApellido(result.apellido);
+      setCorreo(result.correo);
+      setrolUsuario(result.rolUsuario);
+    } catch (error) {
+      console.error("Error en el servidor, inténtelo de nuevo", error);
+    }
+  };
+
+//   const updateRoluser = async (id) => {
+//     try {
+//       const rolParse = parseInt(rolUsuario);
+//       const idParse = parseInt(id);
+//       const response = await fetch(constants.api + "users/Updaterol/" + idParse, {
+//         method: "PUT",
+//         headers: {
+//           Accept: "application/json",
+//           "Content-Type": "application/json",
+//           Authorization: "Bearer" ,
+//         },
+//         body: JSON.stringify({
+//           rolUsuario: rolParse
+//       }),
+//       });
+
+//       const result = await response.json();
+//       console.log(result);
+
+//       if(result){
+//         console.log("Fue editado el usuario");
+//         setShow(false);
+//         getUser();
+//       }else{
+//         console.log("el usuario no se actualizo");
+//       }
 
   
-} catch (error) {
-  alert("error en el servidor, intentelo de nuevo", error);
-}
+// } catch (error) {
+//   alert("error en el servidor, intentelo de nuevo", error);
+// }
+// };
+
+const updateRoluser = (id) => {
+  try {
+    const rolParse = parseInt(rolUsuario);
+
+    // Obtenemos la lista de usuarios almacenada en localStorage
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+
+    // Buscamos el usuario con el id proporcionado
+    const userToUpdate = users.find(user => user.idUsuarios === id);
+
+    if (!userToUpdate) {
+      console.log("Usuario no encontrado");
+      return;
+    }
+
+    // Actualizamos el rol del usuario en la lista local
+    userToUpdate.rolUsuario = rolParse;
+
+    // Actualizamos el arreglo en localStorage
+    localStorage.setItem('users', JSON.stringify(users));
+
+    console.log("Fue editado el usuario");
+    setShow(false);
+    getUserLocal(); // Actualizamos el estado "data" con los nuevos datos
+
+  } catch (error) {
+    console.error("Error en el servidor, inténtelo de nuevo", error);
+    alert("Error en el servidor, inténtelo de nuevo", error);
+  }
 };
 
 const deleteUser = async (id) => {
@@ -341,32 +373,41 @@ const ConfirmAlert = async (id) => {
 
 const deleteUserLocal = (idLocal) => {
   try {
-    var users = JSON.parse(localStorage.removeItem('users')) || []
-    const result = users.filter(item => item.id  === idLocal);
-    
-    console.log(result);
+    // Obtenemos la lista de usuarios almacenada en localStorage
+    let users = JSON.parse(localStorage.getItem('users')) || [];
 
-    if(result){
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Usuario eliminado",
-        showConfirmButton: false,
-        timer: 3000,
-      });
-      getUserLocal();
-    }else{
-      console.log("el usuario no se borro");
-    }
+    // Filtramos la lista para eliminar el usuario con el idLocal proporcionado
+    users = users.filter(item => item.idUsuarios !== idLocal);
 
-    
+    // Actualizamos el arreglo en localStorage
+    localStorage.setItem('users', JSON.stringify(users));
+
+    // Mostramos una alerta de éxito
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Usuario eliminado",
+      showConfirmButton: false,
+      timer: 3000,
+    });
+
+    // Llamamos a la función para actualizar el estado "data" con los nuevos datos
+    setData(users);
   } catch (error) {
-    alert("error en el servidor, intentelo de nuevo", error);
+    console.error("Error al eliminar el usuario", error);
+
+    // Mostramos una alerta de error
+    Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Error al eliminar el usuario",
+      showConfirmButton: false,
+      timer: 3000,
+    });
   }
 };
 
 const ConfirmAlertLocal = async (id) => {
-
   Swal.fire({
     title: "¿Estás seguro?",
     text: "Este cambio será permanente!",
@@ -378,13 +419,11 @@ const ConfirmAlertLocal = async (id) => {
     cancelButtonText: "Cancelar",
     iconColor: "#d33",
   }).then((result) => {
-  
-      if (result.isConfirmed) {
-        deleteUserLocal(id);
-        Swal.fire("Eliminado!", "El registro de teléfono fue eliminado.", "success");
-        
-      }
-
+    if (result.isConfirmed) {
+      // Llamamos a la función deleteUserLocal para eliminar el usuario
+      deleteUserLocal(id);
+      Swal.fire("Eliminado!", "El registro de usuario fue eliminado.", "success");
+    }
   });
 };
 
@@ -497,20 +536,39 @@ const handleClosecreate = (id) => {
   }, []);
 
   // TEMPLATES PARA ACCCIONES DE ELIMINAR Y EDITAR
+  // const actionBodyTemplate = (rowData) => {
+  //   return (
+  //     <div key={rowData.ID}>
+  //         <Button
+  //           icon="pi pi-pencil"
+  //           className="p-button-rounded p-button-success mr-2" onClick={(e) => getUserById(rowData?.ID)}
+  //         />
+  //         <Button
+  //           icon="pi pi-trash"
+  //           className="p-button-rounded p-button-danger" onClick={(e) => ConfirmAlert(rowData?.idUsuarios)}
+  //         />
+  //     </div>
+  //   );
+  // };
+
   const actionBodyTemplate = (rowData) => {
     return (
       <div key={rowData.ID}>
-          <Button
-            icon="pi pi-pencil"
-            className="p-button-rounded p-button-success mr-2" onClick={(e) => getUserLocalById(rowData?.ID)}
-          />
-          <Button
-            icon="pi pi-trash"
-            className="p-button-rounded p-button-danger" onClick={(e) => ConfirmAlertLocal(rowData?.idUsuarios)}
-          />
+        <Button
+          icon="pi pi-pencil"
+          className="p-button-rounded p-button-success mr-2"
+          onClick={(e) => getUserLocalById(rowData?.idUsuarios)} // Call getUserById here
+        />
+        <Button
+        icon="pi pi-trash"
+        className="p-button-rounded p-button-danger"
+        onClick={(e) => ConfirmAlertLocal(rowData?.idUsuarios)} // Usa ConfirmAlertLocal en lugar de deleteUser
+      />
       </div>
     );
   };
+
+
 
   // FORMATEO DE FECHA
   const formatDate = (value) => {
@@ -764,7 +822,7 @@ const handleClosecreate = (id) => {
                 <Button variant="secondary" onClick={handleClosecreate}>
                   Close
                 </Button>
-                <Button variant="primary" onClick={(e) => createUserLocal(id)}>
+                <Button variant="primary" onClick={(e) => createBothUser(id)}>
                   Create
                 </Button>
               </Modal.Footer>
