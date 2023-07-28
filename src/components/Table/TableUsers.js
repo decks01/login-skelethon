@@ -70,6 +70,44 @@ const TableUsers = () => {
     setrolUsuario('')
   }
 
+  const sincronizarDatosLocalStorageConApi = async () => {
+    if (getOnLineStatus()) {
+      const usuarios = JSON.parse(localStorage.getItem('users')) || []
+
+      // Recorre los usuarios en el almacenamiento local y crea/actualiza cada uno en la API
+      for (const usuario of usuarios) {
+        try {
+          const response = await fetch(constants.api + 'users', {
+            method: 'PUT', // Cambia esto a 'PUT' para la actualización
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              Authorization: 'Bearer',
+            },
+            body: JSON.stringify(usuario),
+          })
+
+          const resultado = await response.json()
+          console.log(resultado)
+
+          // Elimina el usuario del almacenamiento local después de una llamada exitosa a la API
+          const usuariosActualizados = usuarios.filter(
+            (u) => u.idUsuarios !== usuario.idUsuarios
+          )
+          localStorage.setItem('users', JSON.stringify(usuariosActualizados))
+        } catch (error) {
+          console.error('Error en la llamada a la API', error)
+          alert('Error en el servidor, inténtalo de nuevo', error)
+        }
+      }
+    }
+  }
+
+  // Llama a la función sincronizarDatosLocalStorageConApi cuando se carga el componente
+  useEffect(() => {
+    sincronizarDatosLocalStorageConApi()
+  }, [])
+
   const getUser = async () => {
     try {
       const token = localStorage.getItem('token')
@@ -164,6 +202,49 @@ const TableUsers = () => {
 
   //   }
   // }
+
+  const createBothUser = async () => {
+    if (getOnLineStatus()) {
+      // Si hay conexión a internet, realiza la llamada a la API
+      try {
+        const IDParse = parseInt(ID)
+        const response = await fetch(constants.api + 'users', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer',
+          },
+          body: JSON.stringify({
+            ID: IDParse,
+            nombre: nombre,
+            apellido: apellido,
+            correo: correo,
+            contrasena: contrasena,
+            imagen: '',
+            rolUsuario: rolUsuario,
+          }),
+        })
+
+        const result = await response.json()
+        console.log(result)
+
+        if (result) {
+          console.log('Fue creado el usuario')
+          setShowcreate(false)
+          getUser()
+        } else {
+          console.log('El usuario no se creo')
+        }
+      } catch (error) {
+        console.error('Error en la llamada a la API', error)
+        alert('Error en el servidor, inténtalo de nuevo', error)
+      }
+    } else {
+      // Si no hay conexión a internet, guarda los datos en el almacenamiento local
+      createUserLocal()
+    }
+  }
 
   const createUser = async () => {
     // setShow(true);
@@ -291,37 +372,80 @@ const TableUsers = () => {
     }
   }
 
-  //   const updateRoluser = async (id) => {
-  //     try {
-  //       const rolParse = parseInt(rolUsuario);
-  //       const idParse = parseInt(id);
-  //       const response = await fetch(constants.api + "users/Updaterol/" + idParse, {
-  //         method: "PUT",
-  //         headers: {
-  //           Accept: "application/json",
-  //           "Content-Type": "application/json",
-  //           Authorization: "Bearer" ,
-  //         },
-  //         body: JSON.stringify({
-  //           rolUsuario: rolParse
-  //       }),
-  //       });
+  const updateBothRolUsuario = async (id) => {
+    if (getOnLineStatus()) {
+      // Si hay conexión a internet, realiza la llamada a la API
+      try {
+        const rolParse = parseInt(rolUsuario)
+        const idParse = parseInt(id)
+        const response = await fetch(
+          constants.api + 'users/Updaterol/' + idParse,
+          {
+            method: 'PUT',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              Authorization: 'Bearer',
+            },
+            body: JSON.stringify({
+              rolUsuario: rolParse,
+            }),
+          }
+        )
 
-  //       const result = await response.json();
-  //       console.log(result);
+        const result = await response.json()
+        console.log(result)
 
-  //       if(result){
-  //         console.log("Fue editado el usuario");
-  //         setShow(false);
-  //         getUser();
-  //       }else{
-  //         console.log("el usuario no se actualizo");
-  //       }
+        if (result) {
+          console.log('Fue editado el usuario')
+          setShow(false)
+          getUser()
+        } else {
+          console.log('el usuario no se actualizo')
+        }
+      } catch (error) {
+        console.error('Error en la llamada a la API', error)
+        alert('Error en el servidor, inténtalo de nuevo', error)
+      }
+    } else {
+      // Si no hay conexión a internet, guarda los datos en el almacenamiento local
+      updateRolLocaluser(id)
+    }
+  }
 
-  // } catch (error) {
-  //   alert("error en el servidor, intentelo de nuevo", error);
-  // }
-  // };
+  const updateRoluser = async (id) => {
+    try {
+      const rolParse = parseInt(rolUsuario)
+      const idParse = parseInt(id)
+      const response = await fetch(
+        constants.api + 'users/Updaterol/' + idParse,
+        {
+          method: 'PUT',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer',
+          },
+          body: JSON.stringify({
+            rolUsuario: rolParse,
+          }),
+        }
+      )
+
+      const result = await response.json()
+      console.log(result)
+
+      if (result) {
+        console.log('Fue editado el usuario')
+        setShow(false)
+        getUser()
+      } else {
+        console.log('el usuario no se actualizo')
+      }
+    } catch (error) {
+      alert('error en el servidor, intentelo de nuevo', error)
+    }
+  }
 
   const updateRolLocaluser = (id) => {
     try {
@@ -889,7 +1013,7 @@ const TableUsers = () => {
             <Button variant='secondary' onClick={handleClosecreate}>
               Close
             </Button>
-            <Button variant='primary' onClick={(e) => createUserLocal(id)}>
+            <Button variant='primary' onClick={(e) => createBothUser(id)}>
               Create
             </Button>
           </Modal.Footer>
@@ -955,7 +1079,7 @@ const TableUsers = () => {
             <Button variant='secondary' onClick={handleClose}>
               Close
             </Button>
-            <Button variant='primary' onClick={(e) => updateRolLocaluser(id)}>
+            <Button variant='primary' onClick={(e) => updateBothRolUsuario(id)}>
               Save Changes
             </Button>
           </Modal.Footer>
