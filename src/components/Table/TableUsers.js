@@ -953,6 +953,7 @@ const TableUsers = () => {
               <label>
                 ID
                 <input
+                  type='number'
                   className='form-control'
                   onChange={(e) => setID(e.target.value)}
                 />
@@ -983,6 +984,7 @@ const TableUsers = () => {
                 <label>
                   Correo
                   <input
+                    type='email'
                     className='form-control'
                     onChange={(e) => setCorreo(e.target.value)}
                   />
@@ -1002,6 +1004,7 @@ const TableUsers = () => {
               <label>
                 Rol
                 <input
+                  type='number'
                   className='form-control'
                   onChange={(e) => setrolUsuario(e.target.value)}
                 />
