@@ -103,41 +103,63 @@ const TableProducts = () => {
 
 const createProduct = async () => {
     // setShow(true);
+
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Producto Creado",
+      showConfirmButton: false,
+      timer: 3000,
+    });
+
     try {
+
+      const form = new FormData()
+      
+      
       const idCatParse = parseInt(idCat);
       const stockParse = parseInt(stock);
       const precioParse = parseFloat(precio);
-      const response = await fetch(constants.api + "products", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer" ,
-        },
-      body: JSON.stringify({
-          idCat: idCatParse,
-          nombre: nombre,
-          tipo: tipo,
-          descripcion: descripcion,
-          stock: stockParse,
-          precio: precioParse,
-          imagen: imagen
-    }),
-      });
 
-      const result = await response.json();
-      console.log(result);
+      form.append('idCat', idCat)
+      form.append('nombre', nombre)
+      form.append('tipo', tipo)
+      form.append('descripcion', descripcion)
+      form.append('stock', stockParse)
+      form.append('precio', precioParse)
+      form.append('imagen', imagen)
 
-      if(result){
-        console.log("Fue creado el producto");
-        setShowcreate(false);
-        getProducts();
-      }else{
-        console.log("El producto no se creo");
-      }
+
+      const response = await fetch(constants.api + "products/uploading", {
+          method: "POST",
+          body: form
+      },
+      getProducts(),
+      setShowcreate(false),
+      window.location.reload()
+   
+      // setTimeout(() => {
+      //   // window.location.reload();
+      // }, 3000)
+      );
+
+      // const result = await response.json();
+      // console.log(result);
+
+
+
+        // console.log("Fue creado el producto");
+        // setShowcreate(false);
+        // getProducts();
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 3000);
+
       
 } catch (error) {
-  alert("error en el servidor, intentelo de nuevo", error);
+  // alert("error en el servidor, intentelo de nuevo", error);
+  console.error("Image upload failed. Error:");
+  window.location.reload();
 }
 };
 
@@ -264,6 +286,11 @@ const ConfirmAlert = async (id) => {
   });
 };
 
+
+const handleFileChange = (event) => {
+  console.log('IMAGEN', event.target.files[0] );
+  setImagen(event.target.files[0]);
+}
 const handleClose = (id) => {
   setShow(false);
   cleardata();
@@ -545,6 +572,7 @@ const handleClosecreate = (id) => {
               value={data}
               filterDisplay="menu"
               responsiveLayout="scroll"
+              aria-sort='ascending'
               paginator
               dataKey="id"
               filters={filters1}
@@ -650,8 +678,8 @@ const handleClosecreate = (id) => {
                 </div>
               </div>
               <div className="mb-3">
-                    <label forhtml="formFileMultiple" className="form-label">Multiple files input example</label>
-                    <input className="form-control" type="file" id="formFileMultiple" multiple onChange={(e) => setImagen(e.target.value)}/>
+                    <label forhtml="formFileMultiple" className="form-label">Elije Imagen</label>
+                    <input className="form-control" type="file" id="formFileMultiple" multiple onChange={handleFileChange}/>
               </div>
               </Modal.Body>
 
