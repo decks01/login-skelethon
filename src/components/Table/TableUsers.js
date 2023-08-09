@@ -70,44 +70,6 @@ const TableUsers = () => {
     setrolUsuario('')
   }
 
-  const sincronizarDatosLocalStorageConApi = async () => {
-    if (getOnLineStatus()) {
-      const usuarios = JSON.parse(localStorage.getItem('users')) || []
-
-      // Recorre los usuarios en el almacenamiento local y crea/actualiza cada uno en la API
-      for (const usuario of usuarios) {
-        try {
-          const response = await fetch(constants.api + 'users', {
-            method: 'PUT', // Cambia esto a 'PUT' para la actualización
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-              Authorization: 'Bearer',
-            },
-            body: JSON.stringify(usuario),
-          })
-
-          const resultado = await response.json()
-          console.log(resultado)
-
-          // Elimina el usuario del almacenamiento local después de una llamada exitosa a la API
-          const usuariosActualizados = usuarios.filter(
-            (u) => u.idUsuarios !== usuario.idUsuarios
-          )
-          localStorage.setItem('users', JSON.stringify(usuariosActualizados))
-        } catch (error) {
-          console.error('Error en la llamada a la API', error)
-          alert('Error en el servidor, inténtalo de nuevo', error)
-        }
-      }
-    }
-  }
-
-  // Llama a la función sincronizarDatosLocalStorageConApi cuando se carga el componente
-  useEffect(() => {
-    sincronizarDatosLocalStorageConApi()
-  }, [])
-
   const getUser = async () => {
     try {
       const token = localStorage.getItem('token')
@@ -124,125 +86,6 @@ const TableUsers = () => {
       console.log(result)
     } catch (error) {
       console.log('Estan vacios los campos o esta mal la consulta')
-    }
-  }
-
-  const getUserLocal = () => {
-    try {
-      const users = JSON.parse(localStorage.getItem('users')) || []
-
-      setData(users)
-      console.log(users)
-    } catch (error) {
-      console.log('Estan vacios los campos o esta mal la consulta')
-    }
-  }
-
-  // DATA PARA EL FETCH
-  useEffect(() => {
-    // getUser();
-    getUserLocal()
-  }, [])
-
-  useEffect(() => {
-    console.log('ESTE ES EL MODO', navigator.onLine)
-  }, [])
-
-  const getOnLineStatus = () =>
-    typeof navigator !== 'undefined' && typeof navigator.onLine === 'boolean'
-      ? navigator.onLine
-      : true
-
-  const useNavigatorOnLine = () => {
-    const [status, setStatus] = React.useState(getOnLineStatus())
-
-    const setOnline = () => setStatus(true)
-    const setOffline = () => setStatus(false)
-
-    React.useEffect(() => {
-      window.addEventListener('online', setOnline)
-      window.addEventListener('offline', setOffline)
-
-      return () => {
-        window.removeEventListener('online', setOnline)
-        window.removeEventListener('offline', setOffline)
-      }
-    }, [])
-
-    return status
-  }
-
-  const StatusIndicator = () => {
-    const isOnline = useNavigatorOnLine()
-
-    return <span>You are {isOnline ? 'online' : 'offline'}.</span>
-  }
-
-  var connection =
-    navigator.connection ||
-    navigator.mozConnection ||
-    navigator.webkitConnection
-  var tipo = connection.effectiveType
-
-  function updateConnectionStatus() {
-    console.log(
-      'Connection type changed from ' + tipo + ' to ' + connection.effectiveType
-    )
-    tipo = connection.effectiveType
-  }
-
-  connection.addEventListener('change', updateConnectionStatus)
-
-  // const createBothUser = () => {
-  //   if(navigator.onLine) {
-  //     createUser()
-  //    createUserLocal()
-  //   } else {
-  //     createUserLocal()
-
-  //   }
-  // }
-
-  const createBothUser = async () => {
-    if (getOnLineStatus()) {
-      // Si hay conexión a internet, realiza la llamada a la API
-      try {
-        const IDParse = parseInt(ID)
-        const response = await fetch(constants.api + 'users', {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer',
-          },
-          body: JSON.stringify({
-            ID: IDParse,
-            nombre: nombre,
-            apellido: apellido,
-            correo: correo,
-            contrasena: contrasena,
-            imagen: '',
-            rolUsuario: rolUsuario,
-          }),
-        })
-
-        const result = await response.json()
-        console.log(result)
-
-        if (result) {
-          console.log('Fue creado el usuario')
-          setShowcreate(false)
-          getUser()
-        } else {
-          console.log('El usuario no se creo')
-        }
-      } catch (error) {
-        console.error('Error en la llamada a la API', error)
-        alert('Error en el servidor, inténtalo de nuevo', error)
-      }
-    } else {
-      // Si no hay conexión a internet, guarda los datos en el almacenamiento local
-      createUserLocal()
     }
   }
 
@@ -283,40 +126,6 @@ const TableUsers = () => {
     }
   }
 
-  const createUserLocal = () => {
-    try {
-      const IDParse = parseInt(ID)
-      // Resto del código para obtener nombre, apellido, correo, etc.
-
-      // Crear un nuevo objeto con los datos del usuario, incluido el ID
-      const newUser = {
-        idUsuarios: IDParse,
-        nombre: nombre,
-        apellido: apellido,
-        correo: correo,
-        contrasena: contrasena,
-        imagen: '',
-        rolUsuario: rolUsuario,
-      }
-
-      // Obtener la lista actual de usuarios del localStorage o inicializar una lista vacía
-      const users = JSON.parse(localStorage.getItem('users')) || []
-
-      // Agregar el nuevo usuario a la lista
-      users.push(newUser)
-
-      // Guardar la lista actualizada en el localStorage
-      localStorage.setItem('users', JSON.stringify(users))
-
-      console.log('Fue creado el usuario')
-      setShowcreate(false)
-      getUserLocal() // Llamamos a getUserLocal para actualizar el estado "data" con los nuevos datos
-    } catch (error) {
-      console.error('Error en el servidor, inténtelo de nuevo', error)
-      alert('Error en el servidor, inténtelo de nuevo', error)
-    }
-  }
-
   const getUserById = async (ID) => {
     setShow(true)
     console.log(ID)
@@ -339,77 +148,6 @@ const TableUsers = () => {
       setrolUsuario(result.rolUsuario)
     } catch (error) {
       alert('error en el servidor, intentelo de nuevo', error)
-    }
-  }
-
-  const getUserLocalById = (ID) => {
-    setShow(true)
-    console.log(ID)
-
-    try {
-      // Obtenemos la lista de usuarios almacenada en localStorage
-      const users = JSON.parse(localStorage.getItem('users')) || []
-
-      // Buscamos el usuario con el ID proporcionado
-      const result = users.find((user) => user.idUsuarios === ID)
-
-      if (!result) {
-        console.log('Usuario no encontrado')
-        return
-      }
-
-      console.log('Result De getUser', result)
-
-      // Actualizamos los estados con los datos del usuario encontrado
-      setDataModal(result)
-      setidUsuario(result.idUsuarios)
-      setNombre(result.nombre)
-      setApellido(result.apellido)
-      setCorreo(result.correo)
-      setrolUsuario(result.rolUsuario)
-    } catch (error) {
-      console.error('Error en el servidor, inténtelo de nuevo', error)
-    }
-  }
-
-  const updateBothRolUsuario = async (id) => {
-    if (getOnLineStatus()) {
-      // Si hay conexión a internet, realiza la llamada a la API
-      try {
-        const rolParse = parseInt(rolUsuario)
-        const idParse = parseInt(id)
-        const response = await fetch(
-          constants.api + 'users/Updaterol/' + idParse,
-          {
-            method: 'PUT',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-              Authorization: 'Bearer',
-            },
-            body: JSON.stringify({
-              rolUsuario: rolParse,
-            }),
-          }
-        )
-
-        const result = await response.json()
-        console.log(result)
-
-        if (result) {
-          console.log('Fue editado el usuario')
-          setShow(false)
-          getUser()
-        } else {
-          console.log('el usuario no se actualizo')
-        }
-      } catch (error) {
-        console.error('Error en la llamada a la API', error)
-        alert('Error en el servidor, inténtalo de nuevo', error)
-      }
-    } else {
-      // Si no hay conexión a internet, guarda los datos en el almacenamiento local
-      updateRolLocaluser(id)
     }
   }
 
@@ -444,36 +182,6 @@ const TableUsers = () => {
       }
     } catch (error) {
       alert('error en el servidor, intentelo de nuevo', error)
-    }
-  }
-
-  const updateRolLocaluser = (id) => {
-    try {
-      const rolParse = parseInt(rolUsuario)
-
-      // Obtenemos la lista de usuarios almacenada en localStorage
-      let users = JSON.parse(localStorage.getItem('users')) || []
-
-      // Buscamos el usuario con el id proporcionado
-      const userToUpdate = users.find((user) => user.idUsuarios === id)
-
-      if (!userToUpdate) {
-        console.log('Usuario no encontrado')
-        return
-      }
-
-      // Actualizamos el rol del usuario en la lista local
-      userToUpdate.rolUsuario = rolParse
-
-      // Actualizamos el arreglo en localStorage
-      localStorage.setItem('users', JSON.stringify(users))
-
-      console.log('Fue editado el usuario')
-      setShow(false)
-      getUserLocal() // Actualizamos el estado "data" con los nuevos datos
-    } catch (error) {
-      console.error('Error en el servidor, inténtelo de nuevo', error)
-      alert('Error en el servidor, inténtelo de nuevo', error)
     }
   }
 
@@ -524,62 +232,6 @@ const TableUsers = () => {
         Swal.fire(
           'Eliminado!',
           'El registro de teléfono fue eliminado.',
-          'success'
-        )
-      }
-    })
-  }
-
-  const deleteUserLocal = (idLocal) => {
-    try {
-      // Obtenemos la lista de usuarios almacenada en localStorage
-      let users = JSON.parse(localStorage.getItem('users')) || []
-
-      // Filtramos la lista para eliminar el usuario con el idLocal proporcionado
-      users = users.filter((item) => item.idUsuarios !== idLocal)
-
-      // Actualizamos el arreglo en localStorage
-      localStorage.setItem('users', JSON.stringify(users))
-
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Usuario eliminado',
-        showConfirmButton: false,
-        timer: 3000,
-      })
-
-      setData(users)
-    } catch (error) {
-      console.error('Error al eliminar el usuario', error)
-
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: 'Error al eliminar el usuario',
-        showConfirmButton: false,
-        timer: 3000,
-      })
-    }
-  }
-
-  const ConfirmAlertLocal = async (id) => {
-    Swal.fire({
-      title: '¿Estás seguro?',
-      text: 'Este cambio será permanente!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, Eliminar!',
-      cancelButtonText: 'Cancelar',
-      iconColor: '#d33',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        deleteUserLocal(id)
-        Swal.fire(
-          'Eliminado!',
-          'El registro de usuario fue eliminado.',
           'success'
         )
       }
@@ -693,38 +345,20 @@ const TableUsers = () => {
     initFilters1()
   }, [])
 
-  // TEMPLATES PARA ACCCIONES DE ELIMINAR Y EDITAR
-  // const actionBodyTemplate = (rowData) => {
-  //   return (
-  //     <div key={rowData.ID}>
-  //         <Button
-  //           icon="pi pi-pencil"
-  //           className="p-button-rounded p-button-success mr-2" onClick={(e) => getUserById(rowData?.ID)}
-  //         />
-  //         <Button
-  //           icon="pi pi-trash"
-  //           className="p-button-rounded p-button-danger" onClick={(e) => ConfirmAlert(rowData?.idUsuarios)}
-  //         />
-  //     </div>
-  //   );
-  // };
-
   const actionBodyTemplate = (rowData) => {
     return (
       <div key={rowData.ID}>
-        <Button
-          icon='pi pi-pencil'
-          className='p-button-rounded p-button-success mr-2'
-          onClick={(e) => getUserLocalById(rowData?.idUsuarios)} // Call getUserById here
-        />
-        <Button
-          icon='pi pi-trash'
-          className='p-button-rounded p-button-danger'
-          onClick={(e) => ConfirmAlertLocal(rowData?.idUsuarios)} // Usa ConfirmAlertLocal en lugar de deleteUser
-        />
+          <Button
+            icon="pi pi-pencil"
+            className="p-button-rounded p-button-success mr-2" onClick={(e) => getUserById(rowData?.ID)}
+          />
+          <Button
+            icon="pi pi-trash"
+            className="p-button-rounded p-button-danger" onClick={(e) => ConfirmAlert(rowData?.idUsuarios)}
+          />
       </div>
-    )
-  }
+    );
+  };
 
   // FORMATEO DE FECHA
   const formatDate = (value) => {
@@ -1016,7 +650,7 @@ const TableUsers = () => {
             <Button variant='secondary' onClick={handleClosecreate}>
               Close
             </Button>
-            <Button variant='primary' onClick={(e) => createBothUser(id)}>
+            <Button variant='primary' onClick={(e) => createUser(id)}>
               Create
             </Button>
           </Modal.Footer>
@@ -1082,7 +716,7 @@ const TableUsers = () => {
             <Button variant='secondary' onClick={handleClose}>
               Close
             </Button>
-            <Button variant='primary' onClick={(e) => updateBothRolUsuario(id)}>
+            <Button variant='primary' onClick={(e) => updateRoluser(id)}>
               Save Changes
             </Button>
           </Modal.Footer>
