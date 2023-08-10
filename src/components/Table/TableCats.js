@@ -611,6 +611,13 @@ const handleClosecreate = (id) => {
                     <input className="form-control" value={talla} onChange={(e) => setTalla(e.target.value)}/>
                   </label>
                 </div>
+
+                <div className="col">
+                  <label> 
+                    Talla
+                    <input className="form-control" value={talla} onChange={(e) => setTalla(e.target.value)}/>
+                  </label>
+                </div>
               </div>
               
               </Modal.Body>

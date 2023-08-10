@@ -21,7 +21,7 @@ const RouteLink = (props) => {
     
     if (id === color.id) {
       color.className += " color-btn";
-    }
+    }                                                                   
   };
 
   return (
