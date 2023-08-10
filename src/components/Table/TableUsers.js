@@ -70,6 +70,30 @@ const TableUsers = () => {
     setrolUsuario('')
   }
 
+  const [isOnline, setIsOnline] = useState(window.navigator.onLine);
+
+  const handleOnlineStatusChange = () => {
+    setIsOnline(window.navigator.onLine);
+  };
+
+  useEffect(() => {
+    window.addEventListener('online', handleOnlineStatusChange);
+    window.addEventListener('offline', handleOnlineStatusChange);
+
+    return () => {
+      window.removeEventListener('online', handleOnlineStatusChange);
+      window.removeEventListener('offline', handleOnlineStatusChange);
+    };
+  }, []);
+
+  const IndicadorEstado = () => {
+    return (
+      <div className={`indicador-estado ${isOnline ? 'en-linea' : 'fuera-de-linea'}`}>
+        {isOnline ? 'Estás en línea' : 'Estás fuera de línea'}
+      </div>
+    );
+  }
+
   const getUser = async () => {
     try {
       const token = localStorage.getItem('token')
@@ -721,7 +745,7 @@ const TableUsers = () => {
             </Button>
           </Modal.Footer>
         </Modal>
-        <StatusIndicator />
+        <IndicadorEstado/>
       </div>
     </>
   )
