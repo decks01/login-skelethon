@@ -585,14 +585,14 @@ const handleClosecreate = (id) => {
               <div className="form-group mb-3">
                   <label> 
                     Pedido_Usuario 
-                  <input className="form-control" onChange={(e) => setpedidoUsuario(e.target.value)}/>
+                  <input className="form-control" type='number' onChange={(e) => setpedidoUsuario(e.target.value)}/>
                   </label>
                 </div>  
               <div className="row">
                 <div className="col mb-3">
                   <label> 
                     ID_Direccion 
-                  <input className="form-control" onChange={(e) => setidDireccion(e.target.value)}/>
+                  <input className="form-control" type='number' onChange={(e) => setidDireccion(e.target.value)}/>
                   </label>
                 </div>
                 {/* <div className="col mb-3">
@@ -625,13 +625,13 @@ const handleClosecreate = (id) => {
                 <div className="col mb-3">
                   <label> 
                     ID_Usuario
-                  <input className="form-control" value={pedidoUsuario} onChange={(e) => setpedidoUsuario(e.target.value)}/>
+                  <input className="form-control" type='number' value={pedidoUsuario} onChange={(e) => setpedidoUsuario(e.target.value)}/>
                   </label>
                 </div>
                 <div className="col mb-3">
                   <label> 
                     ID_Direccion
-                    <input className="form-control" value={idDireccion} onChange={(e) => setidDireccion(e.target.value)}/>
+                    <input className="form-control" type='number' value={idDireccion} onChange={(e) => setidDireccion(e.target.value)}/>
                   </label>
                 </div>
               </div>

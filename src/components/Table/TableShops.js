@@ -599,7 +599,7 @@ const handleClosecreate = (id) => {
                 <div className="col mb-3">
                   <label> 
                     Pedido_ID 
-                  <input className="form-control" onChange={(e) => setPedidoID(e.target.value)}/>
+                  <input className="form-control" type='number' onChange={(e) => setPedidoID(e.target.value)}/>
                   </label>
                 </div>
                 <div className="col mb-3">
@@ -639,7 +639,7 @@ const handleClosecreate = (id) => {
                 <div className="col">
                   <label> 
                     Pedido_ID
-                  <input className="form-control" value={pedidoID} onChange={(e) => setPedidoID(e.target.value)}/>
+                  <input className="form-control" type='number' value={pedidoID} onChange={(e) => setPedidoID(e.target.value)}/>
                   </label>
                 </div>
                 <div className="col">

@@ -659,7 +659,7 @@ const handleClosecreate = (id) => {
                 <div className="col mb-3">
                   <label> 
                     Correo
-                    <input className="form-control" onChange={(e) => setCorreo(e.target.value)}/>
+                    <input className="form-control" type='email' onChange={(e) => setCorreo(e.target.value)}/>
                   </label>
                 </div>
                 <div className="col mb-3">
@@ -757,7 +757,7 @@ const handleClosecreate = (id) => {
                 <div className="col mb-3">
                   <label> 
                     Correo
-                    <input className="form-control" value={correo} onChange={(e) => setCorreo(e.target.value)}/>
+                    <input className="form-control" type='email' value={correo} onChange={(e) => setCorreo(e.target.value)}/>
                   </label>
                 </div>
                 <div className="col mb-3">

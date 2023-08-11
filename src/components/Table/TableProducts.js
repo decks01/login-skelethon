@@ -651,7 +651,7 @@ const handleClosecreate = (id) => {
               <div className="form-group mb-3">
                   <label> 
                     ID Categoria 
-                  <input className="form-control" onChange={(e) => setidCat(e.target.value)}/>
+                  <input className="form-control" type='number' onChange={(e) => setidCat(e.target.value)}/>
                   </label>
                 </div>  
               <div className="row">
@@ -676,13 +676,13 @@ const handleClosecreate = (id) => {
                 <div className="col mb-3">
                   <label> 
                     Stock
-                    <input className="form-control" onChange={(e) => setStock(e.target.value)}/>
+                    <input className="form-control" type='number' onChange={(e) => setStock(e.target.value)}/>
                   </label>
                 </div>
                 <div className="col mb-3">
                   <label> 
                     Precio
-                    <input className="form-control" onChange={(e) => setPrecio(e.target.value)}/>
+                    <input className="form-control" type='number' onChange={(e) => setPrecio(e.target.value)}/>
                   </label>
                 </div>
               </div>
@@ -712,7 +712,7 @@ const handleClosecreate = (id) => {
               <div className="form-group mb-3">
                   <label> 
                     ID Categoria
-                    <input className="form-control" value={idCat} onChange={(e) => setidCat(e.target.value)}/>
+                    <input className="form-control" type='number' value={idCat} onChange={(e) => setidCat(e.target.value)}/>
                   </label>
               </div>
               <div className="row">
@@ -737,13 +737,13 @@ const handleClosecreate = (id) => {
                 <div className="col mb-3">
                   <label> 
                     Stock
-                    <input className="form-control" value={stock} onChange={(e) => setStock(e.target.value)}/>
+                    <input className="form-control" type='number' value={stock} onChange={(e) => setStock(e.target.value)}/>
                   </label>
                 </div>
                 <div className="col mb-3">
                   <label> 
                     Precio
-                    <input className="form-control" value={precio} onChange={(e) => setPrecio(e.target.value)}/>
+                    <input className="form-control" type='number' value={precio} onChange={(e) => setPrecio(e.target.value)}/>
                   </label>
                 </div>
               </div>

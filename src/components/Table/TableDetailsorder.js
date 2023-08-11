@@ -599,13 +599,13 @@ const handleClosecreate = (id) => {
                 <div className="col mb-3">
                   <label> 
                     idProd 
-                  <input className="form-control" onChange={(e) => setidProd(e.target.value)}/>
+                  <input className="form-control" type='number' onChange={(e) => setidProd(e.target.value)}/>
                   </label>
                 </div>
                 <div className="col mb-3">
                   <label> 
                     idPedido
-                  <input className="form-control" onChange={(e) => setidPedido(e.target.value)}/>
+                  <input className="form-control" type='number' onChange={(e) => setidPedido(e.target.value)}/>
                   </label>
                 </div>
               </div>
@@ -613,19 +613,19 @@ const handleClosecreate = (id) => {
                 <div className="col mb-3">
                   <label> 
                     Cantidad
-                    <input className="form-control" onChange={(e) => setCantidad(e.target.value)}/>
+                    <input className="form-control" type='number' onChange={(e) => setCantidad(e.target.value)}/>
                   </label>
                 </div>
                 <div className="col mb-3">
                   <label> 
                     Precio
-                    <input className="form-control" onChange={(e) => setPrecio(e.target.value)}/>
+                    <input className="form-control" type='number' onChange={(e) => setPrecio(e.target.value)}/>
                   </label>
                 </div>
                 <div className="col mb-3">
                   <label> 
                     Subtotal
-                    <input className="form-control" onChange={(e) => setSubtotal(e.target.value)}/>
+                    <input className="form-control" type='number' onChange={(e) => setSubtotal(e.target.value)}/>
                   </label>
                 </div>
               </div>
@@ -653,13 +653,13 @@ const handleClosecreate = (id) => {
                 <div className="col mb-3">
                   <label> 
                     idProd
-                  <input className="form-control" value={idProd} onChange={(e) => setidProd(e.target.value)}/>
+                  <input className="form-control" type='number' value={idProd} onChange={(e) => setidProd(e.target.value)}/>
                   </label>
                 </div>
                 <div className="col mb-3">
                   <label> 
                     idPedido
-                  <input className="form-control" value={idPedido} onChange={(e) => setidPedido(e.target.value)}/>
+                  <input className="form-control" type='number' value={idPedido} onChange={(e) => setidPedido(e.target.value)}/>
                   </label>
                 </div>
               </div>
@@ -667,19 +667,19 @@ const handleClosecreate = (id) => {
                 <div className="col mb-3">
                   <label> 
                     Cantidad
-                    <input className="form-control" value={cantidad} onChange={(e) => setCantidad(e.target.value)}/>
+                    <input className="form-control" type='number' value={cantidad} onChange={(e) => setCantidad(e.target.value)}/>
                   </label>
                 </div>
                 <div className="col mb-3">
                   <label> 
                     Precio
-                    <input className="form-control" value={precio} onChange={(e) => setPrecio(e.target.value)}/>
+                    <input className="form-control" type='number' value={precio} onChange={(e) => setPrecio(e.target.value)}/>
                   </label>
                 </div>
                 <div className="col mb-3">
                   <label> 
                     Subtotal
-                    <input className="form-control" value={subtotal} onChange={(e) => setSubtotal(e.target.value)}/>
+                    <input className="form-control" type='number' value={subtotal} onChange={(e) => setSubtotal(e.target.value)}/>
                   </label>
                 </div>
               </div>
