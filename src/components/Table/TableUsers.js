@@ -88,11 +88,34 @@ const TableUsers = () => {
 
   const IndicadorEstado = () => {
     return (
-      <div className={`indicador-estado ${isOnline ? 'en-linea' : 'fuera-de-linea'}`}>
-        {isOnline ? 'Estás en línea' : 'Estás fuera de línea'}
-      </div>
+      <></>
+      // <div className={`indicador-estado ${isOnline ? 'en-linea' : 'fuera-de-linea'}`}>
+      //   {isOnline ? 'Estás en línea' : 'Estás fuera de línea'}
+      // </div>
     );
   }
+
+    useEffect(() => {
+    if(isOnline){
+      Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Estas en linea",
+      showConfirmButton: false,
+      html:
+    '<small>Tus datos han sido actualizados</small> ',
+      timer: 3000,
+    })
+    }else{
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Sin conexion a internet",
+        showConfirmButton: false,
+        timer: 3000,
+      })
+    }
+  }, [navigator.onLine])
 
   const getUser = async () => {
     try {
@@ -113,6 +136,9 @@ const TableUsers = () => {
     }
   }
 
+  useEffect(() => {
+    getUser()
+  }, [])
   const createUser = async () => {
     // setShow(true);
     try {
@@ -498,6 +524,10 @@ const TableUsers = () => {
     )
   }
 
+  useEffect(() => {
+    const arrayEnJSON = JSON.stringify(data);
+     localStorage.setItem('datos', arrayEnJSON)
+  }, [data])
   const clearFilter1 = () => {
     initFilters1()
   }
