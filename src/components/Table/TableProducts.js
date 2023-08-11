@@ -192,41 +192,50 @@ const getProductById = async (id) => {
 
 const updateProduct = async (id) => {
   try {
-    const idParse = parseInt(id);
+
+
+    const form = new FormData()
+      
+      
     const idCatParse = parseInt(idCat);
+    const idParse = parseInt(id);
+
     const stockParse = parseInt(stock);
     const precioParse = parseFloat(precio);
-    const response = await fetch(constants.api + "products/" + idParse, {
+
+    form.append('idCat', idCat)
+    form.append('nombre', nombre)
+    form.append('tipo', tipo)
+    form.append('descripcion', descripcion)
+    form.append('stock', stockParse)
+    form.append('precio', precioParse)
+    form.append('imagen', imagen)
+
+
+    const response = await fetch(constants.api + "products/uploading/" + idParse, {
       method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer" ,
-      },
-      body: JSON.stringify({
-        idCat: idCatParse,
-        nombre: nombre,
-        tipo: tipo,
-        descripcion: descripcion,
-        stock: stockParse,
-        precio: precioParse,
-        imagen: imagen
-    }),
-    });
+      
+      body: form
+    },
+    getProducts(),
+    window.location.reload()
+    );
 
     const result = await response.json();
     console.log(result);
-
-    if(result){
-      console.log("Fue editado el producto");
-      setShow(false);
-      getProducts();
-    }else{
-      console.log("El producto no se actualizo");
-    }
+    
+    // if(result){
+    //   console.log("Fue editado el producto");
+    //   setShow(false);
+    //   getProducts();
+    // }else{
+    //   console.log("El producto no se actualizo");
+    // }
 
 } catch (error) {
-alert("error en el servidor, intentelo de nuevo", error);
+  getProducts()
+      window.location.reload()
+// alert("error en el servidor, intentelo de nuevo", error);
 }
 };
 
@@ -738,6 +747,14 @@ const handleClosecreate = (id) => {
                   </label>
                 </div>
               </div>
+              <div className="row">
+                <div className="col mb-3">
+                <label> 
+                    Imagen
+                    <input className="form-control" type="file" onChange={handleFileChange}/>
+                  </label>
+                </div>
+                </div>
               {/* <div className="mb-3">
                     <label forhtml="formFileMultiple" className="form-label">Multiple files input example</label>
                     <input className="form-control" type="file" id="formFileMultiple" multiple value={imagen} onChange={(e) => setImagen(e.target.value)}/>
